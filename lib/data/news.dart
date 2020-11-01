@@ -53,21 +53,20 @@ class News{
       idPlace.hashCode;
 }
 
-News newsFromJsonMap(Map<String, dynamic> map) {
-  return News.fromJson(map);
-}
-
+//Only here because of a stupid test
 News newsFromJson(String jsonStr) {
   final jsonData = json.decode(jsonStr);
   return News.fromJson(jsonData);
 }
 
+//Only here because of a stupid test
 List<News> newsListFromJson(String jsonStr) {
 
   var newsJson = jsonDecode(jsonStr) as List;
   return newsJson.map((tagJson) => News.fromJson(tagJson)).toList();
 
 }
+
 
 
 

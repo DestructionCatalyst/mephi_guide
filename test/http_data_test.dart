@@ -12,8 +12,6 @@ import 'package:http/http.dart' as http;
 
 class MockClient extends Mock implements http.Client {}
 
-class MockFetcher extends Mock implements Fetcher {}
-
 main() {
   final client = MockClient();
 
@@ -63,12 +61,11 @@ main() {
 
   test('returns a http_list_data if the json conversion call completes successfully', () async {
 
-    HttpListData<News> newsListData = HttpListData(newsFromJson);
+    HttpListData<News> newsListData = HttpListData((jsonMap) => News.fromJson(jsonMap));
 
     when(client.get('http://194.87.232.95:45555/home/getnews?inst=0')).
-    thenAnswer((realInvocation) async {
-      print("mock");
-        return http.Response('[{'
+    thenAnswer((realInvocation) async =>
+        http.Response('[{'
             '"id":5,'
             '"name":"Test piece of news for icis",'
             '"institution":5,'
@@ -86,7 +83,7 @@ main() {
             '"text":"dolor sid amet",'
             '"top_img":null,'
             '"idPlace":1}'
-            ']', 200);})
+            ']', 200))
       ;
 
     var expected = [
