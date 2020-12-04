@@ -23,6 +23,9 @@ class Reminder{
     );
   }
 
+  String get shortenedText => text.substring(0, 50) + "...";
+  String get span => from + " - " + to;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

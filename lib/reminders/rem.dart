@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mephi_guide/circle_button.dart';
+import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
+import 'package:mephi_guide/reminders/reminders_list.dart';
 
 import 'circle_status_widget.dart';
 import '../group_manager.dart';
@@ -10,6 +12,7 @@ import '../rounded_button.dart';
 
 class MobileWidget2 extends StatelessWidget {
   final GroupManager reminderButtonsGroup = new GroupManager();
+  final RemindersBloc bloc = new RemindersBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +251,10 @@ class MobileWidget2 extends StatelessWidget {
                       'assets/images/oval.svg',
                       semanticsLabel: 'oval'
                   )
-              ),Positioned(
+              ),
+              // Fake list tile (sounds like a porn category)
+              /*
+              Positioned(
                   top: 331,
                   left: 0,
                   child: Container(
@@ -495,10 +501,13 @@ class MobileWidget2 extends StatelessWidget {
                         color : Color.fromRGBO(255, 255, 255, 1),
                       )
                   )
-                  //The List
-              ),Positioned(
-                  top: 497,
-                  left: 0,
+
+
+              )*/
+              //The List
+              Positioned(
+                  top: 331,
+                  left: 0,/*
                   child: Container(
                       width: 360,
                       height: 486,
@@ -982,8 +991,15 @@ class MobileWidget2 extends StatelessWidget {
                             ),ListItem(),
                           ]
                       )
+                  )*/
+
+                  child: Container(
+                    width: 360,
+                    height: 309,
+                      child: RemindersList(bloc: bloc),
                   )
               ),
+
               // Here was something with the oval asset
               //White filling on top
               Positioned(
@@ -1150,10 +1166,11 @@ class ListItem extends StatelessWidget {
                             color : Color.fromRGBO(250, 250, 250, 1),
                           )
                       )
-                  ),Positioned(
+                  ),
+                  Positioned(
                       top: 136,
                       left: 64,
-                      child: Container(
+                      child: Container(// Shit near the status thingy
                           width: 150,
                           height: 4,
 
@@ -1211,10 +1228,11 @@ class ListItem extends StatelessWidget {
                               ]
                           )
                       )
-                  ),Positioned(
+                  ),
+                  Positioned(
                       top: 133.21630859375,
                       left: 17.189208984375,
-                      child: Container(
+                      child: Container(// Status thingy
                           width: 47.27027130126953,
                           height: 8.594594955444336,
 
@@ -1244,21 +1262,20 @@ class ListItem extends StatelessWidget {
                               ]
                           )
                       )
-                  ),Positioned(
+                  ),
+                  Positioned(
                       top: 64.45945739746094,
                       left: 17.189189910888672,
-                      child: Transform.rotate(
-                        angle: -1.0031667522032328e-13 * (math.pi / 180),
-                        child: Text('Learning Design', textAlign: TextAlign.left, style: TextStyle(
-                            color: Color.fromRGBO(62, 39, 148, 1),
-                            fontFamily: 'Roboto',
-                            fontSize: 14,
-                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                            fontWeight: FontWeight.normal,
-                            height: 1.7142857142857142
-                        ),),
-                      )
-                  ),Positioned(
+                      child: Text('Learning Design', textAlign: TextAlign.left, style: TextStyle(
+                          color: Color.fromRGBO(62, 39, 148, 1),
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.normal,
+                          height: 1.7142857142857142
+                      ),)
+                  ),
+                  Positioned(
                       top: 98.83783721923828,
                       left: 17.189189910888672,
                       child: Text('Finishing reading How to Make Great Icon', textAlign: TextAlign.left, style: TextStyle(
@@ -1269,7 +1286,8 @@ class ListItem extends StatelessWidget {
                           fontWeight: FontWeight.normal,
                           height: 1
                       ),)
-                  ),Positioned(
+                  ),
+                  Positioned(
                       top: 17.189189910888672,
                       left: 17.189189910888672,
                       child: Container(
@@ -1280,18 +1298,15 @@ class ListItem extends StatelessWidget {
                               children: <Widget>[
                                 Positioned(
                                     top: 0,
-                                    left: 6.039613253960852e-14,
-                                    child: Transform.rotate(
-                                      angle: -1.0031667522032328e-13 * (math.pi / 180),
-                                      child: Text('15:00', textAlign: TextAlign.left, style: TextStyle(
-                                          color: Color.fromRGBO(79, 79, 79, 1),
-                                          fontFamily: 'Roboto',
-                                          fontSize: 24,
-                                          letterSpacing: 1,
-                                          fontWeight: FontWeight.normal,
-                                          height: 1.5 /*PERCENT not supported*/
-                                      ),),
-                                    )
+                                    left: 0,
+                                    child: Text('15:00', textAlign: TextAlign.left, style: TextStyle(
+                                        color: Color.fromRGBO(79, 79, 79, 1),
+                                        fontFamily: 'Roboto',
+                                        fontSize: 24,
+                                        letterSpacing: 1,
+                                        fontWeight: FontWeight.normal,
+                                        height: 1.5 /*PERCENT not supported*/
+                                    ),)
                                 ),Positioned(
                                     top: 17.96630859375,
                                     left: 77.351318359375,
@@ -1307,10 +1322,11 @@ class ListItem extends StatelessWidget {
                               ]
                           )
                       )
-                  ),Positioned(
+                  ),
+                  Positioned(
                       top: 23.63501739501953,
                       left: 282.54730224609375,
-                      child: Container(
+                      child: Container(//THIS IS THE SWITCH
                           width: 60.16216278076172,
                           height: 25.784021377563477,
 
@@ -1347,7 +1363,9 @@ class ListItem extends StatelessWidget {
                               ]
                           )
                       )
-                  ),Positioned(
+                    //Finish os the switch
+                  ),
+                  Positioned(
                       top: 50,
                       left: 260,
                       child: Text(' >/ выполнить', textAlign: TextAlign.left, style: TextStyle(
