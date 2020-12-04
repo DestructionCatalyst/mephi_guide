@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../Colored.dart';
-import '../GroupManager.dart';
+import 'colored.dart';
+import 'group_manager.dart';
 
 class RoundedToggleButton extends StatelessWidget implements Colored{
 

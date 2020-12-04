@@ -2,11 +2,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mephi_guide/CircleButton.dart';
+import 'package:mephi_guide/circle_button.dart';
 
-import 'CircleStatusWidget.dart';
-import 'GroupManager.dart';
-import 'RoundedButton.dart';
+import 'circle_status_widget.dart';
+import '../group_manager.dart';
+import '../rounded_button.dart';
 
 class MobileWidget2 extends StatelessWidget {
   final GroupManager reminderButtonsGroup = new GroupManager();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:mephi_guide/data/http_fetch.dart';
-import 'package:mephi_guide/rem.dart';
+import 'file:///C:/Users/User/AndroidStudioProjects/mephi_guide/lib/reminders/rem.dart';
 
 
 

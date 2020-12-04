@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Colored.dart';
+import 'colored.dart';
 
 class CircleButton extends StatefulWidget implements Colored{
 

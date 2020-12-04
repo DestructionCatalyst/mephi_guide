@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'GroupManager.dart';
-import 'Colored.dart';
+import 'group_manager.dart';
+import 'colored.dart';
 
 
 
