@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
-
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/news/group.dart';
@@ -11,8 +9,8 @@ import 'news.dart';
 
 class NewsBloc implements Disposable{
 
-  final String newsPage = "getnews?inst=";
-  final String groupsPage = "getgroups";
+  static const String newsPage = "getnews?inst=";
+  static const String groupsPage = "getgroups";
 
   bool targeting = false;
   Group currentGroup = Group(
