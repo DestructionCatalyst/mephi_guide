@@ -5,17 +5,15 @@ import 'package:mephi_guide/data/http_data.dart';
 import 'package:mephi_guide/data/http_fetch.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/i_fetcher.dart';
-import 'package:mephi_guide/data/news.dart';
+import 'file:///C:/Users/User/AndroidStudioProjects/mephi_guide/lib/data/news/news.dart';
 
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 
 class MockClient extends Mock implements http.Client {}
 
-main() {
+  main() {
   final client = MockClient();
-
-  //final fetcher = MockFetcher();
 
   test('returns a http_data if the http call completes successfully', () async {
 

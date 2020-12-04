@@ -1,0 +1,12 @@
+<svg 
+          width="156" 
+          height="197" fill="none" 
+          xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="e192337">
+        <stop offset="53.64583134651184%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
+        <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:0.6499999761581421" />
+        </linearGradient>
+          </defs>
+          <path d="M 0 0 L 156 0 L 156 197 L 0 197 L 0 0 Z" fill="url(#e192337)"/>
+        </svg>

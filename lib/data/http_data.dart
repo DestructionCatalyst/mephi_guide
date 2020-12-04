@@ -5,6 +5,7 @@ import 'package:http/io_client.dart';
 
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_fetch.dart';
+import 'package:meta/meta.dart';
 
 class HttpData<T> implements Disposable{
 
@@ -12,7 +13,8 @@ class HttpData<T> implements Disposable{
 
   final StreamController<T> _dataController = StreamController<T>();
 
-  Sink<T> get _inData => _dataController.sink;
+  //@protected
+  Sink<T> get inData => _dataController.sink;
   Stream<T> get outData => _dataController.stream;
 
   HttpData(T Function(String) jsonConvertFunction):
@@ -27,7 +29,7 @@ class HttpData<T> implements Disposable{
         //outData.drain();
 
         T fromJson = jsonConverter(response.body);
-        _inData.add(fromJson);
+        inData.add(fromJson);
         //print("ass");
 
       }
