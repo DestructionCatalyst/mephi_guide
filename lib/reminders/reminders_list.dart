@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
 import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
+import 'package:mephi_guide/reminders/interactive_switch.dart';
 
 class RemindersList extends StatefulWidget {
 
@@ -83,19 +84,19 @@ class ReminderListTile extends StatelessWidget {
       top: 23.63501739501953,
       left: 282.54730224609375,
 
-      child: Container(
-        width: 60,
-        height: 26,
-        child: Switch(
-          value: false,
+      child: InteractiveSwitch(
+          width: 60,
+          height: 26,
+
           activeColor: Color.fromRGBO(76, 207, 211, 1),
           activeTrackColor: Color.fromRGBO(185, 192, 202, 0.2),
 
           inactiveThumbColor: Color.fromRGBO(245, 135, 60, 1),
           inactiveTrackColor: Color.fromRGBO(185, 192, 202, 0.2),
+
+          defaultValue: false,
           onChanged: (checked){},//TODO interactive switch
         ),
-      )
     );
   }
 

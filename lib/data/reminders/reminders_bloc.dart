@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:mephi_guide/colored.dart';
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
-import 'package:mephi_guide/data/local_file.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
+import 'package:mephi_guide/data/reminders/reminder_completed_check.dart';
 import 'package:mephi_guide/data/reminders/reminders_events.dart';
 
 class RemindersBloc implements Disposable{
@@ -12,6 +11,8 @@ class RemindersBloc implements Disposable{
   static const String remindersPage = "getrem";
 
   HttpListData<Reminder> remindersData;
+
+  ReminderCompletedCheck completedChecker;
 
   final StreamController<ReminderEvent>_eventController = StreamController<ReminderEvent>();
 
@@ -26,7 +27,10 @@ class RemindersBloc implements Disposable{
 
     _outEvent.listen(_handleEvent);
 
+    completedChecker = new ReminderCompletedCheck();
   }
+
+  bool isCompleted(Reminder r) => completedChecker.isCompleted(r);
 
   void _handleEvent(ReminderEvent event){}
 
