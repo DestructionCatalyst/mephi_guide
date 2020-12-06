@@ -1,14 +1,13 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mephi_guide/circle_button.dart';
 import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
+import 'package:mephi_guide/reminders/percentage_text.dart';
 import 'package:mephi_guide/reminders/reminders_list.dart';
 
-import 'circle_status_widget.dart';
 import '../group_manager.dart';
 import '../rounded_button.dart';
+import 'circle_status_widget.dart';
 
 class RemindersTab extends StatefulWidget {
   @override
@@ -308,14 +307,7 @@ class _RemindersTabState extends State<RemindersTab> {
     return Positioned(
         top: 142,
         left: 161,
-        child: Text('75%', textAlign: TextAlign.left, style: TextStyle(//TODO dynamic change
-            color: Color.fromRGBO(76, 207, 211, 1),
-            fontFamily: 'Roboto',
-            fontSize: 50,
-            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-            fontWeight: FontWeight.normal,
-            height: 1
-        ),)
+        child: PercentageText(bloc: bloc,)
     );
   }
 

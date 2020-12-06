@@ -8,11 +8,13 @@ class Reminder{
   final String text;
   final int idPlace;
 
-  Reminder({this.id, this.name, this.from, this.to, this.place, this.text, this.idPlace});
+  bool checked;
+
+  Reminder({this.id, this.name, this.from, this.to, this.place, this.text, this.idPlace, this.checked = false});
 
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
-    return Reminder(
+    Reminder res = Reminder(
         id: json['id'],
         name: json['name'],
         from: json['from'],
@@ -21,6 +23,10 @@ class Reminder{
         text: json['text'],
         idPlace: json['idPlace']
     );
+
+
+
+    return res;
   }
 
   String get shortenedText => text.substring(0, 50) + "...";

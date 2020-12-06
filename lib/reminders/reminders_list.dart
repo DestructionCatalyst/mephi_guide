@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
 import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
+import 'package:mephi_guide/data/reminders/reminders_events.dart';
 import 'package:mephi_guide/reminders/interactive_switch.dart';
 
 class RemindersList extends StatefulWidget {
@@ -27,7 +28,7 @@ class _RemindersListState extends State<RemindersList> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               Reminder reminder = snapshot.data[index];
-              return ReminderListTile(reminder: reminder,);
+              return ReminderListTile(reminder: reminder, bloc: widget.bloc,);
             },
             separatorBuilder: (BuildContext context, int index) => const Divider(),
           );
@@ -40,14 +41,15 @@ class _RemindersListState extends State<RemindersList> {
     );
   }
 
-  Stream<List<Reminder>> get remindersStream => widget.bloc.remindersData.outData;
+  Stream<List<Reminder>> get remindersStream => widget.bloc.outData;
 }
 
 class ReminderListTile extends StatelessWidget {
 
   final Reminder reminder;
+  final RemindersBloc bloc;
 
-  const ReminderListTile({Key key, this.reminder}) : super(key: key);
+  const ReminderListTile({Key key, this.reminder, this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +96,10 @@ class ReminderListTile extends StatelessWidget {
           inactiveThumbColor: Color.fromRGBO(245, 135, 60, 1),
           inactiveTrackColor: Color.fromRGBO(185, 192, 202, 0.2),
 
-          defaultValue: false,
-          onChanged: (checked){},//TODO interactive switch
+          defaultValue: reminder.checked,
+          onChanged: (checked){
+            bloc.inEvent.add(ReminderCheckedChanged(reminder, checked));
+          },
         ),
     );
   }
