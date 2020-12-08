@@ -13,6 +13,8 @@ class RemindersBloc implements Disposable{
   HttpListData<Reminder> remindersData;
   List<Reminder> reminders;
 
+  bool incompleteOnly = false;
+
   ReminderCompletedCheck completedChecker;
 
   final StreamController<ReminderEvent>_eventController = StreamController<ReminderEvent>();
@@ -64,7 +66,8 @@ class RemindersBloc implements Disposable{
       completedChecker.saveCheckedList(reminders);
     }
     else if (event is DisplayModeCheckedChanged){
-
+      incompleteOnly = event.incompleteOnly;
+      updateData();
     }
     else{
       //Should never reach here
@@ -74,7 +77,16 @@ class RemindersBloc implements Disposable{
   }
 
   void updateData(){
-    _inData.add(reminders);
+    if (incompleteOnly) {
+      List tmp = reminders.where((element) => !element.checked).toList();
+      _inData.add(tmp);
+      print('only $tmp');
+    }
+    else {
+      _inData.add(reminders);
+      print('all $reminders');
+    }
+
     _inPercentage.add(calculatePercentage());
 
   }

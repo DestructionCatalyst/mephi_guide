@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mephi_guide/circle_button.dart';
 import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
+import 'package:mephi_guide/data/reminders/reminders_events.dart';
 import 'package:mephi_guide/reminders/percentage_text.dart';
 import 'package:mephi_guide/reminders/reminders_list.dart';
 
@@ -139,7 +140,7 @@ class _RemindersTabState extends State<RemindersTab> {
                                     height: 38,
                                     text: "Все",
                                     defaultPressed: true,
-                                    onTap: (){},
+                                    onTap: () => bloc.inEvent.add(DisplayModeCheckedChanged(false)),
                                     buttonGroup: reminderButtonsGroup,
                                   ),
                                 ),
@@ -151,7 +152,7 @@ class _RemindersTabState extends State<RemindersTab> {
                                     height: 38,
                                     text: "Невыполненные",
                                     defaultPressed: false,
-                                    onTap: (){},
+                                    onTap: () => bloc.inEvent.add(DisplayModeCheckedChanged(true)),
                                     buttonGroup: reminderButtonsGroup,
                                   ),
                                 ),

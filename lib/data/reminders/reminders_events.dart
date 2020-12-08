@@ -13,7 +13,7 @@ class ReminderCheckedChanged extends ReminderEvent{
 }
 
 class DisplayModeCheckedChanged extends ReminderEvent{
-  bool completedOnly;
+  bool incompleteOnly;
 
-  DisplayModeCheckedChanged(this.completedOnly);
+  DisplayModeCheckedChanged(this.incompleteOnly);
 }

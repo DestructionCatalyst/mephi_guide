@@ -54,4 +54,9 @@ class Reminder{
       place.hashCode ^
       text.hashCode ^
       idPlace.hashCode;
+
+  @override
+  String toString() {
+    return 'Reminder{id: $id, name: $name, checked: $checked}';
+  }
 }

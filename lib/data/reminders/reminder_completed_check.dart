@@ -17,7 +17,6 @@ class ReminderCompletedCheck{
     List<int> loaded = await completedFile.readFile();
 
     completed = Set.from(loaded ?? {});
-    print("file read finished, $loaded");
 
     return setCheckedListAsync(remindersList);
   }

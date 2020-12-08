@@ -28,7 +28,7 @@ class _RemindersListState extends State<RemindersList> {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               Reminder reminder = snapshot.data[index];
-              return ReminderListTile(reminder: reminder, bloc: widget.bloc,);
+              return ReminderListTile(key: UniqueKey(), reminder: reminder, bloc: widget.bloc,);
             },
             separatorBuilder: (BuildContext context, int index) => const Divider(),
           );
