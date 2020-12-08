@@ -40,9 +40,7 @@ class RemindersBloc implements Disposable{
       completedChecker.loadFromFile(event).then((value) {
         reminders = value;
         updateData();
-        print('loaded data');
       });
-
     });
 
     remindersData.loadData(remindersPage);
@@ -50,8 +48,6 @@ class RemindersBloc implements Disposable{
     _outEvent.listen(_handleEvent);
 
   }
-
-  bool isCompleted(Reminder r) => completedChecker.isCompleted(r);
 
   void _handleEvent(ReminderEvent event) {
     if(event is ReminderCheckedChanged){

@@ -32,7 +32,19 @@ class _PercentageTextState extends State<PercentageText> {
 
   Text _buildText(int percentage)
   {
-    return Text('$percentage%', textAlign: TextAlign.left, style: TextStyle(
+    StringBuffer shiftedPercentage = new StringBuffer();
+    int spaceCount = 3 - percentage.toString().length;
+
+    for(int i = 0; i < spaceCount; i++){
+      shiftedPercentage.write('  ');
+    }
+
+    shiftedPercentage.write(percentage);
+    shiftedPercentage.write('%');
+
+    print(shiftedPercentage.toString());
+
+    return Text(shiftedPercentage.toString(), textAlign: TextAlign.left, style: TextStyle(
         color: Color.fromRGBO(76, 207, 211, 1),
         fontFamily: 'Roboto',
         fontSize: 50,

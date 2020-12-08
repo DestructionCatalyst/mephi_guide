@@ -108,7 +108,7 @@ class ReminderListTile extends StatelessWidget {
     return Positioned(
               top: 50,
               left: 260,
-              child: Text(' >/ выполнить', textAlign: TextAlign.left, style: TextStyle(
+              child: Text(reminder.checked ? '>/ выполнено' : '>/ выполнить', textAlign: TextAlign.left, style: TextStyle(
                   color: Color.fromRGBO(185, 192, 202, 1),
                   fontFamily: 'Roboto',
                   fontSize: 12,
@@ -196,10 +196,18 @@ class ReminderListTile extends StatelessWidget {
   }
 
   Positioned buildStatus() {
+    Color statusColor;
+
+    if(reminder.checked)
+      statusColor = Color.fromRGBO(76, 207, 211, 1);
+    else
+      statusColor = Color.fromRGBO(235, 145, 60, 1);
+    //Color.fromRGBO(242, 66, 106, 1) red
+
     return Positioned(
               top: 133.21630859375,
               left: 17.189208984375,
-              child: Container(// Status thingy
+              child: Container(
                   width: 47.27027130126953,
                   height: 8.594594955444336,
 
@@ -218,7 +226,7 @@ class ReminderListTile extends StatelessWidget {
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20),
                                   ),
-                                  color : Color.fromRGBO(242, 66, 106, 1),
+                                  color : statusColor,
                                 )
                             )
                         ),

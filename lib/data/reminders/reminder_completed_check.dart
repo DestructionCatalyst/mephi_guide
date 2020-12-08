@@ -12,14 +12,6 @@ class ReminderCompletedCheck{
           (str) => parseStringToList(str, int.parse)
   );
 
-  ReminderCompletedCheck(){
-    /*completedFile.readFile().then(
-          (value) {
-            completed = Set.from(value ?? {});
-            print("file read finished");
-          }
-    );*/
-  }
 
   Future<List<Reminder>> loadFromFile(List<Reminder> remindersList) async{
     List<int> loaded = await completedFile.readFile();
@@ -35,24 +27,9 @@ class ReminderCompletedCheck{
     return completed?.contains(r.id);
   }
 
-  void check(Reminder r)
-  {
-    completed.add(r.id);
-  }
-
-  void uncheck(Reminder r)
-  {
-    completed.remove(r.id);
-  }
-
   Reminder setChecked(Reminder r){
     r.checked = isCompleted(r);
     return r;
-  }
-
-  List<Reminder> setCheckedList(List<Reminder> remindersList)
-  {
-    return remindersList.map((r) => setChecked(r)).toList();
   }
 
   Future<List<Reminder>> setCheckedListAsync(List<Reminder> remindersList)
@@ -64,8 +41,4 @@ class ReminderCompletedCheck{
     completedFile.writeFile(remindersList.where((e) => (e.checked)).map((e) => e.id).toList()).then((value) => null);
   }
 
-  void saveChecked()
-  {
-    completedFile.writeFile(List.from(completed)).then((value) => null);
-  }
 }
