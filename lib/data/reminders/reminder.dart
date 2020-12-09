@@ -12,6 +12,10 @@ class Reminder{
 
   Reminder({this.id, this.name, this.from, this.to, this.place, this.text, this.idPlace, this.checked = false});
 
+  bool get completed => checked;
+  bool get incomplete => !checked;
+  bool get missed => false;
+
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
     Reminder res = Reminder(

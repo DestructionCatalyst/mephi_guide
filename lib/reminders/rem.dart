@@ -204,9 +204,35 @@ class _RemindersTabState extends State<RemindersTab> {
 
   Positioned buildCircleStatusWidget() {
     return Positioned(
-      top: 70,
-      left: 0,
-      child: CircleStatusWidget(),
+      top: 96,//70,
+      left: 16,//0,
+      child: StreamBuilder<List<int>>(
+        stream: bloc.outAmounts,
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            return CircleStatusWidget(
+              width: 107,
+              height: 107,
+              displayedValues: snapshot.data,
+              colors: [
+                Color.fromRGBO(76, 207, 211, 1),
+                Color.fromRGBO(245, 135, 60, 1),
+                Color.fromRGBO(242, 66, 106, 1),
+              ],
+            );
+          }
+          else{
+            return CircleStatusWidget(
+              width: 107,
+              height: 107,
+              displayedValues: [1],
+              colors: [
+                Color.fromRGBO(76, 207, 211, 1),
+              ]
+            );
+          }
+        }
+      ),
     );
   }
 

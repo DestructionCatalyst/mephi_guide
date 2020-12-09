@@ -32,6 +32,11 @@ class RemindersBloc implements Disposable{
   Sink<int> get _inPercentage => _percentageController.sink;
   Stream<int> get outPercentage => _percentageController.stream;
 
+  final StreamController<List<int>>_circleWidgetController = StreamController<List<int>>();
+
+  Sink<List<int>> get _inAmounts => _circleWidgetController.sink;
+  Stream<List<int>> get outAmounts => _circleWidgetController.stream;
+
   RemindersBloc([HttpListData<Reminder> remindersListData])
   {
     remindersData = remindersListData ?? HttpListData((json) => Reminder.fromJson(json));
@@ -53,16 +58,10 @@ class RemindersBloc implements Disposable{
 
   void _handleEvent(ReminderEvent event) {
     if(event is ReminderCheckedChanged){
-      if (event.becameCompleted){
-        //completedChecker.check(event.changedReminder);
-        reminders.where((element) => element == event.changedReminder).toList()[0].checked = true;
-        updateData();
-      }
-      else{
-        //completedChecker.uncheck(event.changedReminder);
-        reminders.where((element) => element == event.changedReminder).toList()[0].checked = false;
-        updateData();
-      }
+
+      reminders.singleWhere((element) => element == event.changedReminder).checked = event.becameCompleted;
+      updateData();
+
       completedChecker.saveCheckedList(reminders);
     }
     else if (event is DisplayModeCheckedChanged){
@@ -78,17 +77,18 @@ class RemindersBloc implements Disposable{
 
   void updateData(){
     if (incompleteOnly) {
-      List tmp = reminders.where((element) => !element.checked).toList();
+      List tmp = reminders.where((element) => element.incomplete).toList();
       _inData.add(tmp);
-      print('only $tmp');
     }
     else {
       _inData.add(reminders);
-      print('all $reminders');
     }
-
     _inPercentage.add(calculatePercentage());
-
+    _inAmounts.add([
+      reminders.where((element) => element.completed).length,
+      reminders.where((element) => element.incomplete).length,
+      reminders.where((element) => element.missed).length,
+    ]);
   }
 
   int calculatePercentage(){
@@ -112,6 +112,7 @@ class RemindersBloc implements Disposable{
     _eventController.close();
     _reminderController.close();
     _percentageController.close();
+    _circleWidgetController.close();
   }
 
 }
