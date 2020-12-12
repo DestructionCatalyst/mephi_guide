@@ -26,9 +26,10 @@ class _HtmlPageState extends State<HtmlPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('Информация'),
       ),
       body: _buildWebView(widget.htmlPageText),
     );
@@ -39,12 +40,11 @@ class _HtmlPageState extends State<HtmlPage> {
       key: widget?.key,
       initialUrl: _updateUrl(src),
       javascriptMode: JavascriptMode.unrestricted,
-
     );
   }
 
-  _updateUrl(String src) {
-    src = "data:text/html;charset=utf-8," +
+  String _updateUrl(String src) {
+    return "data:text/html;charset=utf-8," +
         Uri.encodeComponent(wrapHtml(src));
   }
 
