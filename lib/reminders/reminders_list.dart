@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
 import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
 import 'package:mephi_guide/data/reminders/reminders_events.dart';
+import 'package:mephi_guide/html_page.dart';
 import 'package:mephi_guide/reminders/interactive_switch.dart';
 
 class RemindersList extends StatefulWidget {
@@ -49,35 +50,51 @@ class ReminderListTile extends StatelessWidget {
   final Reminder reminder;
   final RemindersBloc bloc;
 
-  const ReminderListTile({Key key, this.reminder, this.bloc}) : super(key: key);
+  ReminderListTile({Key key, this.reminder, this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 159,
+    return InkWell(
+      child: Container(
+        height: 159,
 
-      decoration: BoxDecoration(
-        borderRadius : BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
+        decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
+          color : Color.fromRGBO(250, 250, 250, 1),
         ),
-        color : Color.fromRGBO(250, 250, 250, 1),
+
+        child: Stack(
+            children: <Widget>[
+
+              buildLineNearStatus(),
+              buildStatus(),
+              buildName(),
+              buildShortenedText(),
+              buildTimeSpan(),
+              buildTextStatus(),
+              buildSwitch()
+            ]
+        )
       ),
+      onTap: () => _navigateToReminderInfo(context),
+    );
+  }
 
-      child: Stack(
-          children: <Widget>[
-
-            buildLineNearStatus(),
-            buildStatus(),
-            buildName(),
-            buildShortenedText(),
-            buildTimeSpan(),
-            buildTextStatus(),
-            buildSwitch()
-          ]
-      )
+  void _navigateToReminderInfo(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return HtmlPage(
+            //key: _key,
+            htmlPageText: reminder.toHtml(),
+          );
+        },
+      ),
     );
   }
 

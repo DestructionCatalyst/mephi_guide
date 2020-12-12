@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mephi_guide/data/i_fetcher.dart';
-import 'package:mephi_guide/data/http_fetch.dart';
-import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:mephi_guide/data/http_fetch.dart';
+import 'package:mephi_guide/data/i_fetcher.dart';
+import 'package:mockito/mockito.dart';
 
 class MockClient extends Mock implements http.Client {}
 
@@ -37,6 +37,8 @@ main() {
     http.Response actual = await fetcher.fetch(client, "getnews");
 
     print(actual.body);
+
+    print("<\/h4><br>");
     
     expect(actual.body, expected.body);
     expect(actual.statusCode, expected.statusCode);

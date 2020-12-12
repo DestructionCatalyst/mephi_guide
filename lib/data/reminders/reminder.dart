@@ -1,5 +1,7 @@
 
-class Reminder{
+import 'package:mephi_guide/data/i_html_convertible.dart';
+
+class Reminder implements IHtmlConvertible{
   final int id;
   final String name;
   final String from;
@@ -62,5 +64,15 @@ class Reminder{
   @override
   String toString() {
     return 'Reminder{id: $id, name: $name, checked: $checked}';
+  }
+
+  @override
+  String toHtml() {
+    return '''
+      <h4>$name</h4><br>
+      $text<br>
+      Место: $place<br>
+      Сроки: $span
+    ''';
   }
 }

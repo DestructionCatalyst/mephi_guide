@@ -57,7 +57,7 @@ class StatusCirclePainter extends CustomPainter{
   void paint(Canvas canvas, Size size) {
     assert(_values.length == colors.length);
 
-    print(_values);
+    //print(_values);
 
     double cumsum = 0;
 
