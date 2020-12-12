@@ -42,7 +42,7 @@ class _PercentageTextState extends State<PercentageText> {
     shiftedPercentage.write(percentage);
     shiftedPercentage.write('%');
 
-    return Text(shiftedPercentage.toString(), textAlign: TextAlign.left, style: TextStyle(
+    return Text('$percentage%', textAlign: TextAlign.left, style: TextStyle(
         color: Color.fromRGBO(76, 207, 211, 1),
         fontFamily: 'Roboto',
         fontSize: 50,

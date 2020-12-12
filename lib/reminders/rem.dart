@@ -333,7 +333,7 @@ class _RemindersTabState extends State<RemindersTab> {
   Positioned buildPercentageText() {
     return Positioned(
         top: 142,
-        left: 130,//161
+        right: 106,//161
         child: PercentageText(bloc: bloc,)
     );
   }
