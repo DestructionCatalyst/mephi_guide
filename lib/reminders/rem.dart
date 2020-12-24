@@ -318,10 +318,10 @@ class _RemindersTabState extends State<RemindersTab> {
     return Positioned(
         top: 149,
         left: 254,
-        child: Text(' >/ выполнено', textAlign: TextAlign.left, style: TextStyle(
+        child: Text(' выполнено', textAlign: TextAlign.left, style: TextStyle(
             color: Color.fromRGBO(185, 192, 202, 1),
             fontFamily: 'Roboto',
-            fontSize: 12,
+            fontSize: 14,//12
             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
             fontWeight: FontWeight.normal,
             height: 1
@@ -380,7 +380,7 @@ class _RemindersTabState extends State<RemindersTab> {
     return Positioned(
         top: 32,
         left: 16,
-        child: Text('MEPhI >/', textAlign: TextAlign.left, style: TextStyle(
+        child: Text('MEPhI', textAlign: TextAlign.left, style: TextStyle(
             color: Color.fromRGBO(255, 255, 255, 1),
             fontFamily: 'Roboto',
             fontSize: 35,

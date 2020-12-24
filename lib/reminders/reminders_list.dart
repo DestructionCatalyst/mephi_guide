@@ -101,7 +101,7 @@ class ReminderListTile extends StatelessWidget {
   Positioned buildSwitch() {
     return Positioned(
       top: 23.63501739501953,
-      left: 282.54730224609375,
+      left: 278,
 
       child: InteractiveSwitch(
           width: 60,
@@ -124,8 +124,8 @@ class ReminderListTile extends StatelessWidget {
   Positioned buildTextStatus() {
     return Positioned(
               top: 50,
-              left: 260,
-              child: Text(reminder.checked ? '>/ выполнено' : '>/ выполнить', textAlign: TextAlign.left, style: TextStyle(
+              left: 275,
+              child: Text(reminder.checked ? 'выполнено' : 'выполнить', textAlign: TextAlign.left, style: TextStyle(
                   color: Color.fromRGBO(185, 192, 202, 1),
                   fontFamily: 'Roboto',
                   fontSize: 12,
