@@ -1,18 +1,19 @@
 
 import 'package:mephi_guide/data/i_html_convertible.dart';
+import 'package:mephi_guide/data/parse_date.dart';
 
 class Reminder implements IHtmlConvertible{
   final int id;
   final String name;
-  final String from;
-  final String to;
+  final DateTime fromDate;
+  final DateTime toDate;
   final String place;
   final String text;
   final int idPlace;
 
   bool checked;
 
-  Reminder({this.id, this.name, this.from, this.to, this.place, this.text, this.idPlace, this.checked = false});
+  Reminder({this.id, this.name, this.fromDate, this.toDate, this.place, this.text, this.idPlace, this.checked = false});
 
   bool get completed => checked;
   bool get incomplete => !checked;
@@ -23,8 +24,8 @@ class Reminder implements IHtmlConvertible{
     Reminder res = Reminder(
         id: json['id'],
         name: json['name'],
-        from: json['from'],
-        to: json['to'],
+        fromDate: parseDate(json['from']),
+        toDate: parseDate(json['to']),
         place: json['place'],
         text: json['text'],
         idPlace: json['idPlace']
@@ -36,7 +37,7 @@ class Reminder implements IHtmlConvertible{
   }
 
   String get shortenedText => text.substring(0, 50) + "...";
-  String get span => from + " - " + to;
+  String get span => dMy().format(fromDate) + " - " + dMy().format(toDate);
 
   @override
   bool operator ==(Object other) =>
@@ -45,8 +46,6 @@ class Reminder implements IHtmlConvertible{
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name &&
-          from == other.from &&
-          to == other.to &&
           place == other.place &&
           text == other.text &&
           idPlace == other.idPlace;
@@ -55,8 +54,6 @@ class Reminder implements IHtmlConvertible{
   int get hashCode =>
       id.hashCode ^
       name.hashCode ^
-      from.hashCode ^
-      to.hashCode ^
       place.hashCode ^
       text.hashCode ^
       idPlace.hashCode;

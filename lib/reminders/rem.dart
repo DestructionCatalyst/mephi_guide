@@ -257,7 +257,7 @@ class _RemindersTabState extends State<RemindersTab> {
             width: 373,
             height: 228,
             decoration: BoxDecoration(
-              color : Color.fromRGBO(255, 255, 255, 1),
+              color : Color.fromRGBO(250, 250, 250, 1),
             )
         )
     );
