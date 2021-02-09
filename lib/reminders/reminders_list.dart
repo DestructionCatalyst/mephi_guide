@@ -54,6 +54,16 @@ class ReminderListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Color statusColor;
+
+    if(reminder.checked)
+      statusColor = Color.fromRGBO(76, 207, 211, 1);
+    else if (reminder.missed)
+      statusColor = Color.fromRGBO(242, 66, 106, 1);
+    else
+      statusColor = Color.fromRGBO(235, 145, 60, 1);
+
     return InkWell(
       child: Container(
         height: 159,
@@ -72,12 +82,12 @@ class ReminderListTile extends StatelessWidget {
             children: <Widget>[
 
               buildLineNearStatus(),
-              buildStatus(),
+              buildStatus(statusColor),
               buildName(),
               buildShortenedText(),
               buildTimeSpan(),
               buildTextStatus(),
-              buildSwitch()
+              buildSwitch(statusColor)
             ]
         )
       ),
@@ -98,7 +108,7 @@ class ReminderListTile extends StatelessWidget {
     );
   }
 
-  Positioned buildSwitch() {
+  Positioned buildSwitch(Color statusColor) {
     return Positioned(
       top: 23.63501739501953,
       left: 278,
@@ -110,7 +120,7 @@ class ReminderListTile extends StatelessWidget {
           activeColor: Color.fromRGBO(76, 207, 211, 1),
           activeTrackColor: Color.fromRGBO(185, 192, 202, 0.2),
 
-          inactiveThumbColor: Color.fromRGBO(245, 135, 60, 1),
+          inactiveThumbColor: statusColor,//Color.fromRGBO(245, 135, 60, 1),
           inactiveTrackColor: Color.fromRGBO(185, 192, 202, 0.2),
 
           defaultValue: reminder.checked,
@@ -212,14 +222,7 @@ class ReminderListTile extends StatelessWidget {
           );
   }
 
-  Positioned buildStatus() {
-    Color statusColor;
-
-    if(reminder.checked)
-      statusColor = Color.fromRGBO(76, 207, 211, 1);
-    else
-      statusColor = Color.fromRGBO(235, 145, 60, 1);
-    //Color.fromRGBO(242, 66, 106, 1) red
+  Positioned buildStatus(Color statusColor) {
 
     return Positioned(
               top: 133.21630859375,

@@ -77,7 +77,7 @@ class RemindersBloc implements Disposable{
 
   void updateData(){
     if (incompleteOnly) {
-      List tmp = reminders.where((element) => element.incomplete).toList();
+      List tmp = reminders.where((element) => !element.completed).toList();
       _inData.add(tmp);
     }
     else {

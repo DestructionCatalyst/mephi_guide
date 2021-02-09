@@ -15,9 +15,16 @@ class Reminder implements IHtmlConvertible{
 
   Reminder({this.id, this.name, this.fromDate, this.toDate, this.place, this.text, this.idPlace, this.checked = false});
 
+  /// When checked
   bool get completed => checked;
-  bool get incomplete => !checked;
-  bool get missed => false;
+
+  /// When the date had passed
+  bool get late => DateTime.now().isAfter(toDate);
+
+  /// When not checked, but the date has not passed
+  bool get incomplete => !checked & !late;
+  /// When not checked, and the date has passed
+  bool get missed => !checked & late;
 
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
