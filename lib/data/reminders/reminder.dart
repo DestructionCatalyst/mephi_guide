@@ -13,20 +13,31 @@ class Reminder implements IHtmlConvertible, Model {
   final String text;
   final int idPlace;
 
-  bool checked;
+  bool get checked => _state.complete;
 
-  Reminder({this.id, this.name, this.fromDate, this.toDate, this.place, this.text, this.idPlace, this.checked = false});
+  set checked(bool value) {
+    _state.complete = value;
+  }
+
+  ReminderState _state;
+
+  Reminder({this.id, this.name, this.fromDate, this.toDate, this.place, this.text, this.idPlace, checked = false})
+  {
+    _state = ReminderState(id: id, complete: checked);
+  }
+
+  ReminderState get state => _state;
 
   /// When checked
-  bool get completed => checked;
+  bool get completed => _state.complete;
 
   /// When the date had passed
   bool get late => DateTime.now().isAfter(toDate);
 
   /// When not checked, but the date has not passed
-  bool get incomplete => !checked & !late;
+  bool get incomplete => !completed & !late;
   /// When not checked, and the date has passed
-  bool get missed => !checked & late;
+  bool get missed => !completed & late;
 
   String get shortenedText => text.substring(0, 50) + "...";
   String get span => dMy().format(fromDate) + " - " + dMy().format(toDate);
@@ -60,8 +71,6 @@ class Reminder implements IHtmlConvertible, Model {
     if (id != null) { map['id'] = id; }
     return map;
   }
-
-  //TODO save state
 
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
@@ -114,5 +123,36 @@ class Reminder implements IHtmlConvertible, Model {
       Сроки: $span
     ''';
   }
+
+}
+
+class ReminderState implements Model{
+
+  final int id;
+
+  bool complete;
+
+  ReminderState({this.id, this.complete});
+
+  @override
+  Map<String, dynamic> toMap() {
+
+    Map<String, dynamic> map = {
+      'complete': complete
+    };
+
+    if (id != null) { map['id'] = id; }
+    return map;
+  }
+
+  @override
+  factory ReminderState.fromMap(Map<String, dynamic> map) {
+
+    return ReminderState(
+        id: map['id'],
+        complete: map['complete'] == 1
+    );
+  }
+
 
 }
