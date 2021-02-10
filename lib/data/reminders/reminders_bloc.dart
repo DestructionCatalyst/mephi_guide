@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mephi_guide/data/database/db_provider.dart';
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
@@ -46,6 +47,7 @@ class RemindersBloc implements Disposable{
     remindersData.outData.listen((event) {
       completedChecker.loadFromFile(event).then((value) {
         reminders = value;
+        DBProvider.insertAll("reminder", reminders);
         updateData();
       });
     });

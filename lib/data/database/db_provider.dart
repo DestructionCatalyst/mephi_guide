@@ -18,21 +18,27 @@ class DBProvider {
     return _database;
   }
 
+  //Разобраться с onOpen и onCreate!
   initDB() async {
     String path = await getDatabasesPath() + 'data';
-    return await openDatabase(path, version: 1, onOpen: (db) {
+    var db = await openDatabase(path, version: 1, onOpen: (db) async {
     }, onCreate: (Database db, int version) async {
-
-      addTable("reminder", {
+      /*await addTable("reminder", {
         "id": "INTEGER PRIMARY KEY",
         "name": "TEXT",
-        "from": "TEXT",
-        "to": "TEXT",
+        "fromDate": "TEXT",
+        "toDate": "TEXT",
         "place": "TEXT",
-        "`text`": "TEXT",
+        "textDescription": "TEXT",
         "idPlace": "INTEGER",
-      });
+      });*/
+
+      //Why tf this works, but function up here doesnt
+      await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, fromDate TEXT, toDate TEXT, place TEXT, textDescription TEXT, idPlace INTEGER)');
+      print("Table created!");
     });
+    print("DB created!");
+    return db;
   }
 
   addTable(String name, Map<String, String> columns) async{
@@ -46,6 +52,8 @@ class DBProvider {
 
     String resultQuery = query.toString().substring(0, query.length - 2) + ")";
 
+    print(resultQuery);
+
     db.execute(resultQuery);
   }
 
@@ -53,6 +61,12 @@ class DBProvider {
 
   static Future<int> insert(String table, Model model) async =>
       await _database.insert(table, model.toMap());
+
+  static void insertAll(String table, Iterable<Model> models) async {
+    for (Model m in models){
+      await _database.insert(table, m.toMap());
+    }
+  }
 
   static Future<int> update(String table, Model model) async =>
       await _database.update(table, model.toMap(), where: 'id = ?', whereArgs: [model.id]);

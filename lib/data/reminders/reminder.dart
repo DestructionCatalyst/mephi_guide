@@ -48,10 +48,10 @@ class Reminder implements IHtmlConvertible, Model {
     return Reminder(
         id: map['id'],
         name: map['name'],
-        fromDate: parseDate(map['from']),
-        toDate: parseDate(map['to']),
+        fromDate: parseDate(map['fromDate']),
+        toDate: parseDate(map['toDate']),
         place: map['place'],
-        text: map['text'],
+        text: map['textDescription'],
         idPlace: map['idPlace']
     );
   }
@@ -61,10 +61,10 @@ class Reminder implements IHtmlConvertible, Model {
 
     Map <String, dynamic> map = {
       'name': name,
-      'from': fromDate.toIso8601String(),
-      'to': toDate.toIso8601String(),
+      'fromDate': fromDate.toIso8601String(),
+      'toDate': toDate.toIso8601String(),
       'place': place,
-      'text': text,
+      'textDescription': text,
       'idPlace': idPlace
     };
 
@@ -74,8 +74,6 @@ class Reminder implements IHtmlConvertible, Model {
 
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
-    return Reminder.fromMap(json);
-    /*
     Reminder res = Reminder(
         id: json['id'],
         name: json['name'],
@@ -87,7 +85,7 @@ class Reminder implements IHtmlConvertible, Model {
     );
 
     return res;
-     */
+
   }
 
   @override

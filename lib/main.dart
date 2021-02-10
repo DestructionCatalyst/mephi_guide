@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:mephi_guide/data/http_fetch.dart';
+import 'package:mephi_guide/data/database/db_provider.dart';
 import 'package:mephi_guide/reminders/rem.dart';
 
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBProvider.db.database;
   runApp(MyApp());
 }
 
