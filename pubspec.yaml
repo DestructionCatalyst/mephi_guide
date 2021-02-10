@@ -28,6 +28,7 @@ dependencies:
   flutter_svg: any
   path_provider: any
   webview_flutter: ^0.3.19+9
+  sqflite:
 
 
   # The following adds the Cupertino Icons font to your application.

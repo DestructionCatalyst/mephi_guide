@@ -1,8 +1,10 @@
 
 import 'package:mephi_guide/data/i_html_convertible.dart';
+import 'package:mephi_guide/data/model.dart';
 import 'package:mephi_guide/data/parse_date.dart';
 
-class Reminder implements IHtmlConvertible{
+
+class Reminder implements IHtmlConvertible, Model {
   final int id;
   final String name;
   final DateTime fromDate;
@@ -26,8 +28,45 @@ class Reminder implements IHtmlConvertible{
   /// When not checked, and the date has passed
   bool get missed => !checked & late;
 
+  String get shortenedText => text.substring(0, 50) + "...";
+  String get span => dMy().format(fromDate) + " - " + dMy().format(toDate);
+
+  @override
+  factory Reminder.fromMap(Map<String, dynamic> map)
+  {
+    return Reminder(
+        id: map['id'],
+        name: map['name'],
+        fromDate: parseDate(map['from']),
+        toDate: parseDate(map['to']),
+        place: map['place'],
+        text: map['text'],
+        idPlace: map['idPlace']
+    );
+  }
+
+  @override
+  Map <String, dynamic> toMap() {
+
+    Map <String, dynamic> map = {
+      'name': name,
+      'from': fromDate.toIso8601String(),
+      'to': toDate.toIso8601String(),
+      'place': place,
+      'text': text,
+      'idPlace': idPlace
+    };
+
+    if (id != null) { map['id'] = id; }
+    return map;
+  }
+
+  //TODO save state
+
   factory Reminder.fromJson(Map<String, dynamic> json)
   {
+    return Reminder.fromMap(json);
+    /*
     Reminder res = Reminder(
         id: json['id'],
         name: json['name'],
@@ -38,13 +77,9 @@ class Reminder implements IHtmlConvertible{
         idPlace: json['idPlace']
     );
 
-
-
     return res;
+     */
   }
-
-  String get shortenedText => text.substring(0, 50) + "...";
-  String get span => dMy().format(fromDate) + " - " + dMy().format(toDate);
 
   @override
   bool operator ==(Object other) =>
@@ -79,4 +114,5 @@ class Reminder implements IHtmlConvertible{
       Сроки: $span
     ''';
   }
+
 }
