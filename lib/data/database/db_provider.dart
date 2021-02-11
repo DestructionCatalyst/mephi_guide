@@ -34,10 +34,11 @@ class DBProvider {
       });*/
 
       //Why tf this works, but function up here doesnt
+      //Solved - I'm an idiot, function causes a deadlock, have to pass 'db' as its parameter
       await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, fromDate TEXT, toDate TEXT, place TEXT, textDescription TEXT, idPlace INTEGER)');
       print("Table created!");
     });
-    print("DB created!");
+    print("DB created/loaded!");
     return db;
   }
 
@@ -73,4 +74,7 @@ class DBProvider {
 
   static Future<int> delete(String table, Model model) async =>
       await _database.delete(table, where: 'id = ?', whereArgs: [model.id]);
+
+  static void deleteAll(String table) async =>
+      await _database.execute("DELETE FROM $table");
 }

@@ -61,8 +61,8 @@ class Reminder implements IHtmlConvertible, Model {
 
     Map <String, dynamic> map = {
       'name': name,
-      'fromDate': fromDate.toIso8601String(),
-      'toDate': toDate.toIso8601String(),
+      'fromDate': dMy().format(fromDate),
+      'toDate': dMy().format(toDate),
       'place': place,
       'textDescription': text,
       'idPlace': idPlace

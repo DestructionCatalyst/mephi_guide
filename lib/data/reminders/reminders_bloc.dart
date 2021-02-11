@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mephi_guide/data/database/db_provider.dart';
+import 'package:mephi_guide/data/cached_http_data.dart';
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
@@ -40,18 +40,21 @@ class RemindersBloc implements Disposable{
 
   RemindersBloc([HttpListData<Reminder> remindersListData])
   {
-    remindersData = remindersListData ?? HttpListData((json) => Reminder.fromJson(json));
+    remindersData = remindersListData ?? CachedHttpData("reminder", (json) => Reminder.fromJson(json));
 
     completedChecker = new ReminderCompletedCheck();
 
+    //Listener that fires when data is loaded from the server
     remindersData.outData.listen((event) {
       completedChecker.loadFromFile(event).then((value) {
         reminders = value;
-        DBProvider.insertAll("reminder", reminders);
+        //DBProvider.deleteAll("reminder");
+        //DBProvider.insertAll("reminder", reminders);
         updateData();
       });
     });
 
+    // An actual command to load the data
     remindersData.loadData(remindersPage);
 
     _outEvent.listen(_handleEvent);
@@ -67,6 +70,7 @@ class RemindersBloc implements Disposable{
       completedChecker.saveCheckedList(reminders);
     }
     else if (event is DisplayModeCheckedChanged){
+
       incompleteOnly = event.incompleteOnly;
       updateData();
     }

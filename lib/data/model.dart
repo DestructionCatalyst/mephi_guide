@@ -5,6 +5,6 @@ abstract class Model {
 
   Model(this.id);
 
-  static fromMap(){}
+  static fromMap(Map<String, dynamic> map){}
   toMap();
 }

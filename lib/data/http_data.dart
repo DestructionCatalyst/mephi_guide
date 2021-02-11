@@ -1,17 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_fetch.dart';
-import 'package:meta/meta.dart';
 
 class HttpData<T> implements Disposable{
 
   T Function(String) jsonConverter;
 
-  final StreamController<T> _dataController = StreamController<T>();
+  final StreamController<T> _dataController = StreamController<T>.broadcast();
 
   //@protected
   Sink<T> get inData => _dataController.sink;
@@ -20,26 +18,44 @@ class HttpData<T> implements Disposable{
   HttpData(T Function(String) jsonConvertFunction):
   jsonConverter = jsonConvertFunction;
 
-  void loadData(String webPage, [http.Client client]) {
+  Future<bool> loadData(String webPage, [http.Client client]) async {
+    bool res = false;
+
     if (client == null)
       client = IOClient();
 
-    Fetcher().fetch(client, webPage).then((response) {
+    var response = await Fetcher().fetch(client, webPage);
+
+    if(response.statusCode == 200){
+
+      T fromJson = jsonConverter(response.body);
+      inData.add(fromJson);
+
+      res = true;
+      print("Loaded!" + res.toString());
+    }
+    else {
+      //Notify of error
+      res = false;
+    }
+    /*
+      responce = await Fetcher().fetch(client, webPage).then((response) {
       if(response.statusCode == 200){
-        //outData.drain();
 
         T fromJson = jsonConverter(response.body);
         inData.add(fromJson);
-        //print("ass");
 
+        res = true;
+        print("Loaded!" + res.toString());
       }
       else{
-
         //Notify of error
+        res = false;
+        print("Error!" + res.toString());
       }
     });
-
-
+    */
+    return res;
   }
 
   @override
