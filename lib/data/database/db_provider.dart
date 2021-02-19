@@ -35,7 +35,7 @@ class DBProvider {
 
       //Why tf this works, but function up here doesnt
       //Solved - I'm an idiot, function causes a deadlock, have to pass 'db' as its parameter
-      await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, fromDate TEXT, toDate TEXT, place TEXT, textDescription TEXT, idPlace INTEGER)');
+      await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, `from` TEXT, `to` TEXT, place TEXT, `text` TEXT, idPlace INTEGER)');
       print("Table created!");
     });
     print("DB created/loaded!");
@@ -60,12 +60,12 @@ class DBProvider {
 
   static Future<List<Map<String, dynamic>>> query(String table) async => _database.query(table);
 
-  static Future<int> insert(String table, Model model) async =>
-      await _database.insert(table, model.toMap());
+  static Future<int> insert(String table, Model model, {ConflictAlgorithm conflictAlgorithm}) async =>
+      await _database.insert(table, model.toMap(), conflictAlgorithm: conflictAlgorithm);
 
-  static void insertAll(String table, Iterable<Model> models) async {
+  static void insertAll(String table, Iterable<Model> models, {ConflictAlgorithm conflictAlgorithm}) async {
     for (Model m in models){
-      await _database.insert(table, m.toMap());
+      await _database.insert(table, m.toMap(), conflictAlgorithm: conflictAlgorithm);
     }
   }
 

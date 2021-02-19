@@ -4,23 +4,23 @@ import 'package:mephi_guide/data/database/db_provider.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/model.dart';
 import 'package:mephi_guide/data/reminders/reminder.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CachedHttpData<T extends Model> extends HttpListData<T>
 {
   final String table;
+  final T Function(Map<String, dynamic>) jsonConvertFunction;
 
-  CachedHttpData(this.table, T Function(Map<String, dynamic>) jsonConvertFunction) : super(jsonConvertFunction)
+  CachedHttpData(this.table, this.jsonConvertFunction) : super(jsonConvertFunction)
   {
     outData.listen(saveToDatabase);
   }
 
   //Fires when you add from cache, fix!
   void saveToDatabase(List<T> data){
-    DBProvider.query(table).then((value) => print("Start " + value.length.toString()));
-    DBProvider.deleteAll(table);
-    DBProvider.query(table).then((value) => print("Mid " + value.length.toString()));
-    DBProvider.insertAll(table, data);
-    DBProvider.query(table).then((value) => print("End " + value.length.toString()));
+
+    DBProvider.insertAll(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
+
   }
 
   @override
@@ -51,7 +51,7 @@ class CachedHttpData<T extends Model> extends HttpListData<T>
       //This fires saveToDatabase, fix!
           inData.add(// Somehow call the right method to convert the data
               //l.map((e) => e as T).toList()
-              value.map((e) => Reminder.fromMap(e) as T).toList()
+              value.map((e) => jsonConvertFunction(e)).toList()
           )
       );
     }
