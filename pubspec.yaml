@@ -28,6 +28,7 @@ dependencies:
   flutter_svg: any
   path_provider: any
   webview_flutter: ^0.3.19+9
+  flutter_local_notifications: ^1.4.4+1
   sqflite:
 
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mephi_guide/data/database/db_provider.dart';
+import 'package:mephi_guide/notification_scheduler.dart';
 import 'package:mephi_guide/reminders/rem.dart';
 
 
@@ -56,18 +58,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOs = IOSInitializationSettings();
+    var initSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOs);
+
+    FlutterLocalNotificationsPlugin().initialize(initSettings,
+        onSelectNotification: onSelectNotification);
   }
+
+  Future onSelectNotification(String payload) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      print("payload = $payload");
+      return build(context);
+    }));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    NotificationScheduler().scheduleNotification("test", "lorem ipsum", DateTime.now().add(Duration(seconds: 5)), payload: 'aaa');
     return Scaffold(
       body: Center(
       child: RemindersTab()

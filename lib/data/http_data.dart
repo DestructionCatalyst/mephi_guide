@@ -32,7 +32,7 @@ class HttpData<T> implements Disposable{
       inData.add(fromJson);
 
       res = true;
-      print("Loaded!" + res.toString());
+      //print("Loaded!" + res.toString());
     }
     else {
       //Notify of error

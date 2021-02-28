@@ -28,7 +28,7 @@ class CachedHttpData<T extends Model> extends HttpListData<T>
     bool result = false;
     try {
       result = await super.loadData(webPage, client);
-      print("Success!" + result.toString());
+      //print("Success!" + result.toString());
     }
     catch(e){
       print(e);
