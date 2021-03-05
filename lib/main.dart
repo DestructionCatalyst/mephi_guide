@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mephi_guide/data/database/db_provider.dart';
-import 'package:mephi_guide/notification_scheduler.dart';
+import 'package:mephi_guide/menu/floating_menu_button.dart';
 import 'package:mephi_guide/reminders/rem.dart';
+
+import 'menu/menu.dart';
 
 
 
@@ -59,6 +61,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  MenuController controller = MenuController();
+
   void initState() {
     super.initState();
     var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -80,16 +84,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    NotificationScheduler().scheduleNotification("test", "lorem ipsum", DateTime.now().add(Duration(seconds: 5)), payload: 'aaa');
+    //NotificationScheduler().scheduleNotification("test", "lorem ipsum", DateTime.now().add(Duration(seconds: 5)), payload: 'aaa');
     return Scaffold(
       body: Center(
-      child: RemindersTab()
+      child: Stack(
+        children: <Widget>[
+          RemindersTab(),
+          Menu(controller: controller,),
+        ],
+      )
         /*
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -115,14 +125,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      */
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingMenuButton(controller: controller,)
 
-         */
-    ));
+    );
+
   }
 }
+
+// TODO
+// Progress:
+// Menu
+// Improvements:
+// Store reminder state in db
+// Remake buttons with OutlinedButton
