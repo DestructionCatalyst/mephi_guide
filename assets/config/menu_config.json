@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Новости",
+    "page": "news",
+    "icon": "assets/images/icons/globe.png"
+  },
+  {
+    "name": "Памятка",
+    "page": "reminders",
+    "icon": "assets/images/icons/layers.png"
+  },
+  {
+    "name": "Навигация",
+    "page": "navigation",
+    "icon": "assets/images/icons/location-arrow.png"
+  },
+  {
+    "name": "QR-код",
+    "page": "qrcode",
+    "icon": "assets/images/icons/qrcode.png"
+  },
+  {
+    "name": "Телефонный справочник",
+    "page": "telephone",
+    "icon": "assets/images/icons/call-end.png"
+  },
+  {
+    "name": "О приложении",
+    "page": "phonebook",
+    "icon": "assets/images/icons/like.png"
+  }
+]

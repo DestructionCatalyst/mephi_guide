@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'menu_controller.dart';
@@ -71,6 +72,18 @@ class MenuTile extends StatelessWidget {
 
   const MenuTile({Key key, this.name, this.icon, this.page}) : super(key: key);
 
+  factory MenuTile.fromMap(Map<String, dynamic> map)
+  {
+    return MenuTile(
+        name: map['name'],
+        icon: ImageIcon(
+          AssetImage(map['icon']),
+          color: Colors.white,
+        ),
+        page: map['page']
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,6 +122,11 @@ class MenuTile extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MenuTile{name: $name, icon: $icon, page: $page}';
   }
 }
 
