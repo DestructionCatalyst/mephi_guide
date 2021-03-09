@@ -1,6 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+
+import 'menu_controller.dart';
 
 
 class Menu extends StatefulWidget {
@@ -52,23 +53,4 @@ class _MenuState extends State<Menu> {
 }
 
 
-class MenuController{
-  int id = Random().nextInt(1024*1024);
-  bool _shown = false;
-  List<Function> onChangedCallbacks = [];
 
-  get shown => _shown;
-
-  void addCallback(Function callback) =>
-    onChangedCallbacks.add(callback);
-
-
-  void showOrHide() {
-
-    _shown = !_shown;
-
-    onChangedCallbacks.forEach((element) => element());
-    print(_shown ? "Menu shown" : "Menu hidden");
-  }
-
-}
