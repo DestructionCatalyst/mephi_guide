@@ -1,6 +1,16 @@
-
+import 'package:flutter/material.dart';
+import 'package:mephi_guide/reminders/rem.dart';
 
 class MenuController{
+
+  Map<String, Function> navigationMap =
+  {
+    "news" : () => Container(),
+    "reminders" : () => RemindersTab(),
+    "navigation" : () => Container(),
+    "qrcode" : () => Container(),
+    "about" : () => Container()
+  };
 
   bool _shown = false;
   List<Function> onChangedCallbacks = [];
@@ -20,3 +30,4 @@ class MenuController{
   }
 
 }
+

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mephi_guide/data/database/db_provider.dart';
-import 'package:mephi_guide/menu/floating_menu_button.dart';
+import 'package:mephi_guide/page.dart';
 import 'package:mephi_guide/reminders/rem.dart';
 
-import 'menu/menu.dart';
 import 'menu/menu_controller.dart';
 
 
@@ -99,7 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     //NotificationScheduler().scheduleNotification("test", "lorem ipsum", DateTime.now().add(Duration(seconds: 5)), payload: 'aaa');
-    return Scaffold(
+    return MyPage(content: RemindersTab());
+      /*Scaffold(
       body: Center(
       child: Stack(
         children: <Widget>[
@@ -107,37 +107,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Menu(controller: controller,),
         ],
       )
-        /*
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            FutureBuilder<http.Response>(
-              future: Fetcher().fetch(IOClient(), "getnews"),
-              builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
-                if (snapshot.hasData)
-                  return Text(snapshot.data.body);
-                else
-                  return Text("Error!");
-              }
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      */
 
       ), // This trailing comma makes auto-formatting nicer for build methods.
       floatingActionButton: FloatingMenuButton(controller: controller,)
 
-    );
+    );*/
 
   }
 }

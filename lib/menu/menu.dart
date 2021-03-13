@@ -26,11 +26,8 @@ class _MenuState extends State<Menu> {
   final MenuController controller;
   final MenuBloc _bloc = MenuBloc();
 
-  Container _menu;
-
   _MenuState(this.controller) {
     controller.addCallback(() => setState(() => {}));
-
 
   }
 
