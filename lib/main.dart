@@ -5,8 +5,6 @@ import 'package:mephi_guide/data/database/db_provider.dart';
 import 'package:mephi_guide/page.dart';
 import 'package:mephi_guide/reminders/rem.dart';
 
-import 'menu/menu_controller.dart';
-
 
 
 void main() async{
@@ -67,7 +65,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  MenuController controller = MenuController();
+  //MenuController controller = MenuController();
 
   void initState() {
     super.initState();

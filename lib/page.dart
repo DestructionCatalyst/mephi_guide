@@ -18,7 +18,7 @@ class _MyPageState extends State<MyPage> {
 
   final Widget content;
 
-  static final MenuController menuController = MenuController();
+  static final MenuController menuController = MenuController.getInstance();
 
   _MyPageState(this.content);
 

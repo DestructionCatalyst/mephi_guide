@@ -2,6 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/menu/menu_bloc.dart';
+import 'package:mephi_guide/page.dart';
+import 'package:mephi_guide/reminders/rem.dart';
 
 import 'menu_controller.dart';
 
@@ -61,7 +63,12 @@ class _MenuState extends State<Menu> {
                         itemCount: snapshot.data.length,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) =>
-                          snapshot.data[index],
+                          GestureDetector(
+                            child: snapshot.data[index],
+                            onTap: () {
+                              print("pressed on menu item");
+                              },
+                          ),
                         separatorBuilder: (BuildContext context, int index) =>
                           const Divider(),
                       );
@@ -80,6 +87,16 @@ class _MenuState extends State<Menu> {
 }
 
 class MenuTile extends StatelessWidget {
+
+  static final Map<String, _MenuAction> menuActionMap =
+  {
+    "news" : _NavigateMenuAction((context) => MyPage(content: Container())),
+    "reminders" : _NavigateMenuAction((context) => MyPage(content: RemindersTab())),
+    "navigation" : _NavigateMenuAction((context) => MyPage(content: Container())),
+    "qrcode" : _DialogMenuAction(),
+    "phonebook" : _DialogMenuAction(),
+    "about" : _DialogMenuAction(),
+  };
 
   final String name;
   final ImageIcon icon;
@@ -137,7 +154,10 @@ class MenuTile extends StatelessWidget {
               )
             ],
           ),
-          onTap: () => print(page),
+          onTap: () {
+            MenuController.getInstance().showOrHide();
+            menuActionMap[page].perform(context);
+          }
         )
     );
   }
@@ -147,6 +167,56 @@ class MenuTile extends StatelessWidget {
     return 'MenuTile{name: $name, icon: $icon, page: $page}';
   }
 
+}
+
+abstract class _MenuAction{
+
+  void perform(BuildContext context);
+}
+
+class _NavigateMenuAction extends _MenuAction{
+
+  final Function builder;
+
+  _NavigateMenuAction(this.builder);
+
+  @override
+  void perform(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: builder));
+  }
+
+}
+
+class _DialogMenuAction extends _MenuAction{
+
+  @override
+  void perform(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 }
 

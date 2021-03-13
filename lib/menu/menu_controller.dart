@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:mephi_guide/reminders/rem.dart';
+
+
+import 'dart:math';
 
 class MenuController{
 
-  Map<String, Function> navigationMap =
-  {
-    "news" : () => Container(),
-    "reminders" : () => RemindersTab(),
-    "navigation" : () => Container(),
-    "qrcode" : () => Container(),
-    "about" : () => Container()
-  };
+  int id = Random().nextInt(1000000000);
+
+  static MenuController instance;
+
+  MenuController._();
+
+  factory MenuController.getInstance(){
+    return instance ?? (instance = MenuController._());
+  }
 
   bool _shown = false;
   List<Function> onChangedCallbacks = [];
