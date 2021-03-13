@@ -21,12 +21,12 @@
   },
   {
     "name": "Телефонный справочник",
-    "page": "telephone",
+    "page": "phonebook",
     "icon": "assets/images/icons/call-end.png"
   },
   {
     "name": "О приложении",
-    "page": "phonebook",
+    "page": "about",
     "icon": "assets/images/icons/like.png"
   }
 ]

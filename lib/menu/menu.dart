@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mephi_guide/data/menu/menu_bloc.dart';
 
 import 'menu_controller.dart';
 
@@ -23,9 +24,14 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
 
   final MenuController controller;
+  final MenuBloc _bloc = MenuBloc();
+
+  Container _menu;
 
   _MenuState(this.controller) {
     controller.addCallback(() => setState(() => {}));
+
+
   }
 
 
@@ -47,15 +53,27 @@ class _MenuState extends State<Menu> {
               child: Container(
                 width: 360,
                 height: 563,
-                child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-                  MenuTile(
-                    name: "Новости",
-                    icon: ImageIcon(
-                      AssetImage('assets/images/icons/globe.png'),
-                      color: Colors.white,
-                    ),
-                  ),
-                ]),
+                child: StreamBuilder<List<MenuTile>>(
+                  stream: _bloc.outData,
+                  builder: (BuildContext context, AsyncSnapshot<List<MenuTile>> snapshot){
+
+                    if(snapshot.hasData) {
+
+                      return ListView.separated(
+                        padding: EdgeInsets.zero,//const EdgeInsets.all(8),
+                        itemCount: snapshot.data.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) =>
+                          snapshot.data[index],
+                        separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                      );
+                    }
+                    else{
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
             ),
           ]));
@@ -89,45 +107,50 @@ class MenuTile extends StatelessWidget {
     return Container(
         width: 360,
         height: 55,
-        child: Stack(
-          children: <Widget>[
-            //341 77
-            Positioned(
-              top: 15,
-              right: 92,
-                child: Text(
-                  name,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontFamily: 'Roboto',
-                      fontSize: 15.36344051361084,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.normal,
-                      height: 1.4999999689628662),
-                )
-            ),
-            Positioned(
-                top: 0,
-                right: 19,
-                child: Container(
-                    width: 55,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.3),
-                      borderRadius: BorderRadius.all(Radius.elliptical(55, 55)),
-                    ),
-                    child: icon,
-                )
-            )
-          ],
-        ));
+        child: InkWell(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                top: 15,
+                right: 92,
+                  child: Text(
+                    name,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                        fontFamily: 'Roboto',
+                        fontSize: 15.36344051361084,
+                        letterSpacing: 0,
+                        fontWeight: FontWeight.normal,
+                        height: 1.4999999689628662),
+                  )
+              ),
+              Positioned(
+                  top: 0,
+                  right: 19,
+                  child: Container(
+                      width: 55,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 255, 255, 0.3),
+                        borderRadius: BorderRadius.all(Radius.elliptical(55, 55)),
+                      ),
+                      child: icon,
+                  )
+              )
+            ],
+          ),
+          onTap: () => print(page),
+        )
+    );
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'MenuTile{name: $name, icon: $icon, page: $page}';
   }
+
+
 }
 
 
