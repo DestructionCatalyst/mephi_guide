@@ -5,6 +5,7 @@ import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
 import 'package:mephi_guide/data/reminders/reminders_events.dart';
 import 'package:mephi_guide/reminders/percentage_text.dart';
 import 'package:mephi_guide/reminders/reminders_list.dart';
+import 'package:mephi_guide/tab/tab.dart';
 
 import '../group_manager.dart';
 import '../rounded_button.dart';
@@ -22,37 +23,22 @@ class _RemindersTabState extends State<RemindersTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 360,
-        height: 640,
-        decoration: BoxDecoration(
-          color : Color.fromRGBO(250, 250, 250, 1),
-        ),
-        child: Stack(
-            children: <Widget>[
-              buildWhiteFilling(),
-              buildWigglyRectangle(),
-              buildFancyLines(),
+    return MyTab(
+      name: "Памятка",
+      children: <Widget>[
+        buildGearButton(),
+        buildPenButton(),
 
-              buildMephiTitle(),
-              buildGearButton(),
-              buildPenButton(),
+        buildCircleStatusWidget(),
+        buildBell(),
 
-              buildCircleStatusWidget(),
-              buildBell(),
+        buildPercentageText(),
+        buildCompletedText(),
 
-              buildPercentageText(),
-              buildCompletedText(),
+        buildButtons(),
 
-              buildTabTitle(),
-              buildLineAndDotNearTitle(),
-              buildAnotherDotNearTitle(),
-
-              buildButtons(),
-
-              buildList(),
-            ]
-        )
+        buildList(),
+      ]
     );
   }
 
@@ -112,6 +98,26 @@ class _RemindersTabState extends State<RemindersTab> {
     );
   }
 
+  Positioned buildAnotherDotNearTitle() {
+    return Positioned(
+        top: 240,
+        left: 183,
+        child: Container(
+            width: 4,
+            height: 4,
+            decoration: BoxDecoration(
+              borderRadius : BorderRadius.only(
+                topLeft: Radius.circular(3),
+                topRight: Radius.circular(3),
+                bottomLeft: Radius.circular(3),
+                bottomRight: Radius.circular(3),
+              ),
+              color : Color.fromRGBO(185, 191, 202, 1),
+            )
+        )
+    );
+  }
+
   Positioned buildButtons() {
     return Positioned(
         top: 0,
@@ -162,26 +168,6 @@ class _RemindersTabState extends State<RemindersTab> {
                   ),
                   //There was smth with rectanglepath
                 ]
-            )
-        )
-    );
-  }
-
-  Positioned buildAnotherDotNearTitle() {
-    return Positioned(
-        top: 240,
-        left: 183,
-        child: Container(
-            width: 4,
-            height: 4,
-            decoration: BoxDecoration(
-              borderRadius : BorderRadius.only(
-                topLeft: Radius.circular(3),
-                topRight: Radius.circular(3),
-                bottomLeft: Radius.circular(3),
-                bottomRight: Radius.circular(3),
-              ),
-              color : Color.fromRGBO(185, 191, 202, 1),
             )
         )
     );

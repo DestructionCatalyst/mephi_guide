@@ -2,7 +2,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/menu/menu_bloc.dart';
+import 'package:mephi_guide/news/news.dart';
 import 'package:mephi_guide/page.dart';
+import 'package:mephi_guide/phonebook/phonebook.dart';
 import 'package:mephi_guide/reminders/rem.dart';
 
 import 'menu_controller.dart';
@@ -90,12 +92,25 @@ class MenuTile extends StatelessWidget {
 
   static final Map<String, _MenuAction> menuActionMap =
   {
-    "news" : _NavigateMenuAction((context) => MyPage(content: Container())),
+    "news" : _NavigateMenuAction((context) => MyPage(content: NewsTab())),
     "reminders" : _NavigateMenuAction((context) => MyPage(content: RemindersTab())),
     "navigation" : _NavigateMenuAction((context) => MyPage(content: Container())),
     "qrcode" : _DialogMenuAction(),
-    "phonebook" : _DialogMenuAction(),
-    "about" : _DialogMenuAction(),
+    "phonebook" : _NavigateMenuAction((context) => MyPage(content: PhoneBookTab())),
+    "about" : _DialogMenuAction(
+      title: "О приложении",
+      text: "Приложение «Путеводитель по НИЯУ МИФИ»\n" +
+          "Версия " + "1.0" + "\n\n"+
+          "©\n" +
+          "Национальный исследовательский ядерный университет «МИФИ»,\n" +
+          "Институт Интеллектуальных Кибернетических Систем (ИИКС)\n" +
+          "Кафедра №22 «Кибернетика»\n" +
+          "Разработано в рамках курса «Проектная практика»\n" +
+          "Руководитель проекта: Немешаев Сергей\n" +
+          "Куратор проекта: Дадтеев Казбек\n" +
+          "Дизайнер: Петрова Мария\n" +
+          "Разработчик: Комза Владислав\n"
+    )
   };
 
   final String name;
@@ -189,6 +204,11 @@ class _NavigateMenuAction extends _MenuAction{
 
 class _DialogMenuAction extends _MenuAction{
 
+  final String title;
+  final String text;
+
+  _DialogMenuAction({this.title, this.text});
+
   @override
   void perform(BuildContext context) {
     showDialog<void>(
@@ -196,18 +216,17 @@ class _DialogMenuAction extends _MenuAction{
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('AlertDialog Title'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
+                Text(text),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Approve'),
+              child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

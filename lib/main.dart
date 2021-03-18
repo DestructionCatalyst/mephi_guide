@@ -116,7 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // TODO
 // Progress:
-// Menu
+// Implement tabs
+// List in news
+// Phones in database
+// Group selection
+//
 // Improvements:
-// Store reminder state in db
+// Store reminder state in db along with reminder
 // Remake buttons with OutlinedButton
