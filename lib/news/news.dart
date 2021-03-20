@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/group_manager.dart';
+import 'package:mephi_guide/news/news_card_content.dart';
 import 'package:mephi_guide/news/two_column_list.dart';
 import 'package:mephi_guide/rounded_button.dart';
 import 'package:mephi_guide/tab/tab.dart';
@@ -30,14 +31,14 @@ class _NewsTabState extends State<NewsTab> {
             top: 320,
             left: 0,
             child: TwoColumnList(children: [
-              GridCard(horizontal: true),
-              GridCard(horizontal: false),
-              GridCard(horizontal: true),
-              GridCard(horizontal: false),
-              GridCard(horizontal: false),
-              GridCard(horizontal: true),
-              GridCard(horizontal: false),
-              GridCard(horizontal: true),
+              GridCard(content: NewsCardContent(alignment: HorizontalAlignment(), date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: VerticalAlignment(), imageUrl: "https://via.placeholder.com/156x175", date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: HorizontalAlignment(), date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: VerticalAlignment(), imageUrl: "https://via.placeholder.com/156x175",  date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: VerticalAlignment(), imageUrl: "https://via.placeholder.com/156x175",  date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: HorizontalAlignment(), date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: VerticalAlignment(), imageUrl: "https://via.placeholder.com/156x175", date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
+              GridCard(content: NewsCardContent(alignment: HorizontalAlignment(), date: '31.06.2021', name: "Провведение бизнес-конференции", address: "Каширское ш. д.31")),
             ],),
           )
 

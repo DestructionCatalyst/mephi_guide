@@ -29,6 +29,7 @@ dependencies:
   path_provider: any
   webview_flutter: ^0.3.19+9
   flutter_local_notifications: ^1.4.4+1
+  cached_network_image: ^2.5.1
   sqflite:
 
 

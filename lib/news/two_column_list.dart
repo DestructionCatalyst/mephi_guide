@@ -1,6 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mephi_guide/news/news_card_content.dart';
 
 class TwoColumnList extends StatefulWidget {
 
@@ -61,7 +61,7 @@ class _TwoColumnListState extends State<TwoColumnList> {
     );
   }
 
-  void splitLists(){
+  /*void splitLists(){
 
     // Split input list to horizontal and vertical elements
     Iterable<GridCard> horizontals = children.where((element) => element.horizontal);
@@ -98,26 +98,28 @@ class _TwoColumnListState extends State<TwoColumnList> {
     }
 
 
-  }
+  }*/
 }
 
 class GridCard extends StatelessWidget {
 
-  final bool horizontal;
-  final double width;
-  final double horizontalHeight;
-  final double verticalHeight;
+  final NewsCardContent content;
 
-  const GridCard({Key key, @required this.horizontal, this.width = 163, this.horizontalHeight = 225, this.verticalHeight = 270}) : super(key: key);
+  const GridCard({
+    Key key,
+    this.content,
+    }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Container(
-        height: horizontal == true ? horizontalHeight : verticalHeight,
-        width: horizontal == true ? width : width,
+        height: content.alignment.cardHeight,
+        width: content.alignment.cardWidth,
         child: Card(
           color: Colors.amber,
+          child: content,
         ),
       ),
     );
