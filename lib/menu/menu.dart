@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/menu/menu_bloc.dart';
 import 'package:mephi_guide/news/news.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/group_manager.dart';
+import 'package:mephi_guide/news/two_column_list.dart';
 import 'package:mephi_guide/rounded_button.dart';
 import 'package:mephi_guide/tab/tab.dart';
 import 'package:mephi_guide/tab/tab_header.dart';
@@ -25,6 +26,21 @@ class _NewsTabState extends State<NewsTab> {
         ),
         children: <Widget>[
           buildButtons(),
+          Positioned(
+            top: 320,
+            left: 0,
+            child: TwoColumnList(children: [
+              GridCard(horizontal: true),
+              GridCard(horizontal: false),
+              GridCard(horizontal: true),
+              GridCard(horizontal: false),
+              GridCard(horizontal: false),
+              GridCard(horizontal: true),
+              GridCard(horizontal: false),
+              GridCard(horizontal: true),
+            ],),
+          )
+
         ]
     );
 
