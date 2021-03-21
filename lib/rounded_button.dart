@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'group_manager.dart';
 import 'colored.dart';
+import 'group_manager.dart';
 
 
 
@@ -39,7 +39,7 @@ class RoundedToggleButton extends StatefulWidget implements Colored{
     this.disabledTextColor = Colored.purple,
     this.fontFamily = 'Roboto',
     this.fontSize = 14,
-    this.fontWeight = FontWeight.normal,
+    this.fontWeight = FontWeight.bold,
     this.textHeight = 1.7142857142857142,
     this.defaultPressed = false,
     this.onTap,

@@ -118,7 +118,7 @@ class GridCard extends StatelessWidget {
         height: content.alignment.cardHeight,
         width: content.alignment.cardWidth,
         child: Card(
-          color: Colors.amber,
+          color: Colors.white,
           child: content,
         ),
       ),

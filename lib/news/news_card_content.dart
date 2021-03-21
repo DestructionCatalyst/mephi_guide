@@ -22,9 +22,24 @@ class NewsCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: alignment.pictureWidth,
-          height: alignment.pictureHeight,
+        buildImage(),
+        buildDate(),
+        buildName(),
+        buildLocation(),
+        //buildBottomArt()
+      ],
+    );
+  }
+
+  Container buildImage() {
+    return Container(
+        width: alignment.pictureWidth,
+        height: alignment.pictureHeight,
+
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+        child: ClipRRect(
+          borderRadius: new BorderRadius.circular(5.0),
 
           child: CachedNetworkImage(
             imageUrl: imageUrl,
@@ -32,11 +47,40 @@ class NewsCardContent extends StatelessWidget {
             errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
-        Align(
-          alignment: Alignment.topRight,
+      );
+  }
+
+  Align buildName() {
+    return Align(
+        alignment: Alignment.topLeft,
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Text(name,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: Color.fromRGBO(62, 39, 148, 1),
+              fontFamily: 'Roboto',
+              fontSize: 12,
+              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+              fontWeight: FontWeight.bold,
+              height: 1
+            ),
+          ),
+        ),
+      );
+  }
+
+  Align buildDate() {
+    return Align(
+        alignment: Alignment.topRight,
+
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
           child: Text(
             date,
+
             textAlign: TextAlign.right,
+
             style: TextStyle(
               color: Color.fromRGBO(193, 201, 211, 1),
               fontFamily: 'Roboto',
@@ -46,9 +90,99 @@ class NewsCardContent extends StatelessWidget {
               height: 1
             ),
           ),
-        )
-      ],
-    );
+        ),
+      );
+  }
+
+  Row buildLocation() {
+    return Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(3, 3, 5, 3),
+            child: ImageIcon(
+              AssetImage('assets/images/icons/location-map.png'),
+              color: Colors.grey,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 3, 3, 3),
+            child: Text(address,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: Color.fromRGBO(185, 192, 202, 1),
+                fontFamily: 'Roboto',
+                fontSize: 12,
+                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.italic,
+                height: 1
+            ),),
+          )
+        ],
+      );
+  }
+
+  Container buildBottomArt() {
+    return Container(
+          width: 150,
+          height: 4,
+
+          padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+
+          child: Stack(
+              children: <Widget>[
+                Positioned(
+                    top: 1,
+                    left: 0,
+                    child: Container(
+                        width: 111,
+                        height: 2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(3),
+                            topRight: Radius.circular(3),
+                            bottomLeft: Radius.circular(3),
+                            bottomRight: Radius.circular(3),
+                          ),
+                          color : Color.fromRGBO(185, 192, 202, 1),
+                        )
+                    )
+                ),Positioned(
+                    top: 0,
+                    left: 125,
+                    child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(3),
+                            topRight: Radius.circular(3),
+                            bottomLeft: Radius.circular(3),
+                            bottomRight: Radius.circular(3),
+                          ),
+                          color : Color.fromRGBO(185, 192, 202, 1),
+                        )
+                    )
+                ),Positioned(
+                    top: 0,
+                    left: 146,
+                    child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(3),
+                            topRight: Radius.circular(3),
+                            bottomLeft: Radius.circular(3),
+                            bottomRight: Radius.circular(3),
+                          ),
+                          color : Color.fromRGBO(185, 192, 202, 1),
+                        )
+                    )
+                ),
+              ]
+          )
+      );
   }
 }
 
