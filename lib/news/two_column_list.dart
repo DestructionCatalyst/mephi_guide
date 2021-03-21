@@ -34,6 +34,7 @@ class _TwoColumnListState extends State<TwoColumnList> {
     return Container(
       height: 320,
       child: SingleChildScrollView(
+
         child: Row(
           //mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,

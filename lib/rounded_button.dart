@@ -49,7 +49,23 @@ class RoundedToggleButton extends StatefulWidget implements Colored{
   @override
   State<StatefulWidget> createState() => _RoundedToggleButtonState(defaultPressed);
 
-
+  factory RoundedToggleButton.autoWidth({
+    String text,
+    double height = 38,
+    Function onTap,
+    GroupManager buttonGroup,
+    bool defaultPressed = false,
+    double k=6.375,
+    double b=81.875}){
+    return RoundedToggleButton(
+      width: k * text.length + b,
+      height: height,
+      text: text,
+      onTap: onTap,
+      buttonGroup: buttonGroup,
+      defaultPressed: defaultPressed,
+    );
+  }
 }
 
 class _RoundedToggleButtonState extends State<RoundedToggleButton> {
