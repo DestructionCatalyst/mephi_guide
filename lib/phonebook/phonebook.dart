@@ -32,48 +32,27 @@ class _PhoneBookTabState extends State<PhoneBookTab> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: RoundedToggleButton.autoWidth(
-                    height: 38,
-                    text: "Все",
-                    defaultPressed: true,
-                    onTap: () => {},
-                    buttonGroup: phoneBookButtonsGroup,
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: RoundedToggleButton.autoWidth(
-                    height: 38,
-                    text: "Основные",
-                    onTap: () => {},
-                    buttonGroup: phoneBookButtonsGroup,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: RoundedToggleButton.autoWidth(
-                    height: 38,
-                    text: "Учебные отделы",
-                    onTap: () => {},
-                    buttonGroup: phoneBookButtonsGroup,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: RoundedToggleButton.autoWidth(
-                    height: 38,
-                    text: "Дополнительно",
-                    onTap: () => {},
-                    buttonGroup: phoneBookButtonsGroup,
-                  ),
-                ),
-              ],
-
+                buildPaddedButton(name: "Все"),
+                buildPaddedButton(name: "Основные"),
+                buildPaddedButton(name: "Учебные отделы"),
+                buildPaddedButton(name: "Дополнительно"),
+              ]
             )
         )
     );
   }
+
+  Padding buildPaddedButton({String name, Function onTap = doNothing}){
+    return Padding(
+    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+    child: RoundedToggleButton.autoWidth(
+      height: 38,
+      text: name,
+      onTap: onTap,
+      buttonGroup: phoneBookButtonsGroup,
+      ),
+    );
+  }
 }
+
+void doNothing(){}
