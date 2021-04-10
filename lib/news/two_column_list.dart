@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mephi_guide/html_page.dart';
 import 'package:mephi_guide/news/news_card_content.dart';
 
 class TwoColumnList extends StatefulWidget {
@@ -118,10 +119,26 @@ class GridCard extends StatelessWidget {
       child: Container(
         height: content.alignment.cardHeight,
         width: content.alignment.cardWidth,
-        child: Card(
-          color: Colors.white,
-          child: content,
+        child: InkWell(
+          child: Card(
+            color: Colors.white,
+            child: content,
+          ),
+          onTap: () => _navigateToNewsInfo(context),
         ),
+      ),
+    );
+  }
+
+  void _navigateToNewsInfo(BuildContext context){
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return HtmlPage(
+            //key: _key,
+            htmlPageText: content.news.toHtml(),
+          );
+        },
       ),
     );
   }

@@ -1,22 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mephi_guide/data/news/news.dart';
 
 class NewsCardContent extends StatelessWidget {
 
   final String imageUrl;
   final CardAlignment alignment;
 
-  final String date;
-  final String name;
-  final String address;
+  final News news;
+  //final String date;
+  //final String name;
+  //final String address;
 
+  /*
   const NewsCardContent({
     Key key,
     this.imageUrl = "https://via.placeholder.com/156x127",
     this.alignment = const HorizontalAlignment(),
     @required this.date,
     @required this.name,
-    @required this.address}) : super(key: key);
+    @required this.address}) : super(key: key);*/
+
+  const NewsCardContent({
+    Key key,
+    this.imageUrl = "https://via.placeholder.com/156x127",
+    this.alignment = const HorizontalAlignment(),
+    @required this.news}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +64,7 @@ class NewsCardContent extends StatelessWidget {
         alignment: Alignment.topLeft,
         child: Padding(
           padding: const EdgeInsets.all(3.0),
-          child: Text(name,
+          child: Text(news.name,
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Color.fromRGBO(62, 39, 148, 1),
@@ -77,7 +86,7 @@ class NewsCardContent extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Text(
-            date,
+            news.time,
 
             textAlign: TextAlign.right,
 
@@ -106,7 +115,7 @@ class NewsCardContent extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 3, 3, 3),
-            child: Text(address,
+            child: Text(news.place,
               textAlign: TextAlign.right,
               style: TextStyle(
                 color: Color.fromRGBO(185, 192, 202, 1),

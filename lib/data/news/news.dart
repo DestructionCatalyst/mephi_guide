@@ -2,7 +2,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-class News{
+import 'package:mephi_guide/data/i_html_convertible.dart';
+
+class News implements IHtmlConvertible{
   final int id;
   final String name;
   final int institution;
@@ -51,6 +53,16 @@ class News{
       text.hashCode ^
       topImg.hashCode ^
       idPlace.hashCode;
+
+  @override
+  String toHtml() {
+    return '''
+      <h4>$name</h4><br>
+      $text<br>
+      Место: $place<br>
+      Время: $time
+    ''';
+  }
 }
 
 //Only here because of a stupid test
