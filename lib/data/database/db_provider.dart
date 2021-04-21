@@ -23,27 +23,46 @@ class DBProvider {
     String path = await getDatabasesPath() + 'data';
     var db = await openDatabase(path, version: 1, onOpen: (db) async {
     }, onCreate: (Database db, int version) async {
-      /*await addTable("reminder", {
+      await addTable(db, "reminder", {
         "id": "INTEGER PRIMARY KEY",
         "name": "TEXT",
-        "fromDate": "TEXT",
-        "toDate": "TEXT",
+        "`from`": "TEXT",
+        "`to`": "TEXT",
         "place": "TEXT",
-        "textDescription": "TEXT",
+        "`text`": "TEXT",
         "idPlace": "INTEGER",
-      });*/
+      });
+
+      await addTable(db, "news", {
+        "id": "INTEGER PRIMARY KEY",
+        "name": "TEXT",
+        "institution": "INTEGER",
+        "t": "TEXT",
+        "place": "TEXT",
+        "`text`": "TEXT",
+        "topImg": "TEXT",
+        "idPlace": "INTEGER",
+      });
+      /*
+      * 'name': name,
+      'institution': institution,
+      'time': time,
+      'place': place,
+      'text': text,
+      'topImg': topImg.toString(),
+      'idPlace': idPlace*/
+
 
       //Why tf this works, but function up here doesnt
       //Solved - I'm an idiot, function causes a deadlock, have to pass 'db' as its parameter
-      await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, `from` TEXT, `to` TEXT, place TEXT, `text` TEXT, idPlace INTEGER)');
+      //await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, `from` TEXT, `to` TEXT, place TEXT, `text` TEXT, idPlace INTEGER)');
       print("Table created!");
     });
     print("DB created/loaded!");
     return db;
   }
 
-  addTable(String name, Map<String, String> columns) async{
-    final db = await database;
+  addTable(Database db, String name, Map<String, String> columns) async{
 
     StringBuffer query = StringBuffer("CREATE TABLE $name (");
 

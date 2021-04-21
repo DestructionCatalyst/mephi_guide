@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mephi_guide/data/cached_http_data.dart';
 import 'package:mephi_guide/data/disposable.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/news/group.dart';
@@ -31,10 +32,7 @@ class NewsBloc implements Disposable{
   NewsBloc([HttpListData<News> newsListData, HttpListData<Group> groupsListData]){
 
     //Initialize ListData's
-    if(newsListData == null)
-      newsData = HttpListData((json) => News.fromJson(json));
-    else
-      newsData = newsListData;
+    newsData = newsListData ?? CachedHttpData("news", (json) => News.fromJson(json));
 
     if(groupsListData == null)
       groupsData = HttpListData((json) => Group.fromJson(json));

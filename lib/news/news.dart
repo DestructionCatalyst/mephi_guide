@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mephi_guide/data/news/news.dart';
+import 'package:mephi_guide/data/news/news_bloc.dart';
 import 'package:mephi_guide/group_manager.dart';
 import 'package:mephi_guide/news/news_card_content.dart';
 import 'package:mephi_guide/news/two_column_list.dart';
 import 'package:mephi_guide/rounded_button.dart';
 import 'package:mephi_guide/tab/tab.dart';
 import 'package:mephi_guide/tab/tab_header.dart';
-import 'package:mephi_guide/data/news/news_bloc.dart';
 
 
 class NewsTab extends StatefulWidget {
@@ -38,8 +38,13 @@ class _NewsTabState extends State<NewsTab> {
             child: StreamBuilder<List<News>>(
               stream: widget._bloc.newsData.outData,
               builder: (context, snapshot) {
-                if(snapshot.hasData)
-                  return TwoColumnList(children: snapshot.data.reversed.map((a)=> GridCard(content: NewsCardContent(news: a))).toList());
+                if(snapshot.hasData) {
+                  //print(snapshot.data);
+                  return TwoColumnList(
+                      children: snapshot.data.reversed.map((a) =>
+                          GridCard(content: NewsCardContent(news: a)))
+                          .toList());
+                }
                 else
                   return Center(child: CircularProgressIndicator());
                   /*

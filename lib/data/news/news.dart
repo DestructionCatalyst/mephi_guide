@@ -1,17 +1,17 @@
 
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:mephi_guide/data/i_html_convertible.dart';
+import 'package:mephi_guide/data/model.dart';
 
-class News implements IHtmlConvertible{
+class News implements IHtmlConvertible, Model{
   final int id;
   final String name;
   final int institution;
   final String time;
   final String place;
   final String text;
-  final Uint8List topImg;
+  final String topImg;
   final int idPlace;
 
   News({this.id, this.name, this.institution, this.time, this.place, this.text, this.topImg, this.idPlace});
@@ -24,9 +24,27 @@ class News implements IHtmlConvertible{
       time: json['t'],
       place: json['place'],
       text: json['text'],
-      topImg: json['top_mg'],
+      topImg: json['topImg'],
       idPlace: json['idPlace']
     );
+  }
+
+  @override
+  Map<String, dynamic>toMap() {
+    String top_img = topImg ?? '';
+
+    Map <String, dynamic> map = {
+      'name': name,
+      'institution': institution,
+      't': time,
+      'place': place,
+      'text': text,
+      'topImg': top_img ,
+      'idPlace': idPlace
+    };
+
+    if (id != null) { map['id'] = id; }
+    return map;
   }
 
   @override
@@ -62,6 +80,11 @@ class News implements IHtmlConvertible{
       Место: $place<br>
       Время: $time
     ''';
+  }
+
+  @override
+  String toString() {
+    return 'News{id: $id, name: $name, institution: $institution, time: $time, place: $place, text: $text, topImg: $topImg, idPlace: $idPlace}';
   }
 }
 

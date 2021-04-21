@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:mephi_guide/data/database/db_provider.dart';
 import 'package:mephi_guide/data/http_list_data.dart';
 import 'package:mephi_guide/data/model.dart';
-import 'package:mephi_guide/data/reminders/reminder.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CachedHttpData<T extends Model> extends HttpListData<T>
@@ -19,6 +18,8 @@ class CachedHttpData<T extends Model> extends HttpListData<T>
   //Fires when you add from cache, fix!
   void saveToDatabase(List<T> data){
 
+    //print("Saving " + data.toString());
+
     DBProvider.insertAll(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
 
   }
@@ -31,20 +32,12 @@ class CachedHttpData<T extends Model> extends HttpListData<T>
       //print("Success!" + result.toString());
     }
     catch(e){
-      print(e);
+      print("Error loading data: " + e.toString());
     }
 
     if (!result){
 
-      List<Model> l = [Reminder(
-        id: 0,
-        name: "0",
-        fromDate: DateTime.now(),
-        toDate: DateTime.now(),
-        place: "0",
-        text: "0",
-        idPlace: 0,
-      )];
+      //print("Loading from cache...");
 
       //Load last version from database
       DBProvider.query(table).then((value) =>
