@@ -23,7 +23,7 @@ class DBProvider {
     String path = await getDatabasesPath() + 'data';
     var db = await openDatabase(path, version: 1, onOpen: (db) async {
     }, onCreate: (Database db, int version) async {
-      await addTable(db, "reminder", {
+      await addTable(db, "reminders", {
         "id": "INTEGER PRIMARY KEY",
         "name": "TEXT",
         "`from`": "TEXT",
@@ -43,20 +43,40 @@ class DBProvider {
         "topImg": "TEXT",
         "idPlace": "INTEGER",
       });
-      /*
-      * 'name': name,
-      'institution': institution,
-      'time': time,
-      'place': place,
-      'text': text,
-      'topImg': topImg.toString(),
-      'idPlace': idPlace*/
 
+      await addTable(db, 'groups', {
+        "id": "INTEGER PRIMARY KEY",
+        "name": "TEXT",
+        "institution": "INTEGER",
+      });
 
-      //Why tf this works, but function up here doesnt
-      //Solved - I'm an idiot, function causes a deadlock, have to pass 'db' as its parameter
-      //await db.execute('CREATE TABLE reminder (id INTEGER PRIMARY KEY, name TEXT, `from` TEXT, `to` TEXT, place TEXT, `text` TEXT, idPlace INTEGER)');
-      print("Table created!");
+      await addTable(db, 'lessons', {
+        "id": "INTEGER PRIMARY KEY",
+        "idSubject": "INTEGER",
+        "type": "INTEGER",
+        "weekOdd": "INTEGER",
+        "startTime": "DATETIME",
+        "endTime": "DATETIME"
+      });
+
+      await addTable(db, 'places', {
+        "id": "INTEGER PRIMARY KEY",
+        "name": "TEXT",
+        "x": "INTEGER",
+        "y": "INTEGER"
+      });
+
+      await addTable(db, 'subjects', {
+        "id": "INTEGER PRIMARY KEY",
+        "name": "TEXT"
+      });
+
+      await addTable(db, 'teachers', {
+        "id": "INTEGER PRIMARY KEY",
+        "name": "TEXT"
+      });
+
+      print("Tables created!");
     });
     print("DB created/loaded!");
     return db;

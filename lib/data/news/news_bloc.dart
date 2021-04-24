@@ -33,11 +33,7 @@ class NewsBloc implements Disposable{
 
     //Initialize ListData's
     newsData = newsListData ?? CachedHttpData("news", (json) => News.fromJson(json));
-
-    if(groupsListData == null)
-      groupsData = HttpListData((json) => Group.fromJson(json));
-    else
-      groupsData = groupsListData;
+    groupsData = groupsListData ?? CachedHttpData("groups", (json) => Group.fromJson(json));
 
     //Load data on the start
     groupsData.loadData(groupsPage);

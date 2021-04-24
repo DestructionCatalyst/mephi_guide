@@ -40,7 +40,7 @@ class RemindersBloc implements Disposable{
 
   RemindersBloc([HttpListData<Reminder> remindersListData])
   {
-    remindersData = remindersListData ?? CachedHttpData("reminder", (json) => Reminder.fromJson(json));
+    remindersData = remindersListData ?? CachedHttpData("reminders", (json) => Reminder.fromJson(json));
 
     completedChecker = new ReminderCompletedCheck();
 

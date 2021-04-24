@@ -1,6 +1,8 @@
 
 
-class Group{
+import 'package:mephi_guide/data/model.dart';
+
+class Group implements Model{
   final int id;
   final String name;
   final int institution;
@@ -26,4 +28,15 @@ class Group{
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode ^ institution.hashCode;
+
+  @override
+  toMap() {
+    Map <String, dynamic> map = {
+      'name': name,
+      'institution': institution,
+    };
+
+    if (id != null) { map['id'] = id; }
+    return map;
+  }
 }
