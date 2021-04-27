@@ -10,6 +10,72 @@ import 'package:mephi_guide/reminders/rem.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await DBProvider.db.database;
+  await DBProvider.db.addDummies();
+  
+  List<Map<String, dynamic>> res;
+  
+  //res = await DBProvider.rawQuery("SELECT * FROM lessons JOIN teachers_lessons ON lessons.id = teachers_lessons.idLesson JOIN teachers ON teachers_lessons.idTeacher = teachers.id");
+
+  var rawGroup = await DBProvider.rawQuery("SELECT value FROM utility WHERE key = \"currentGroupID\"");
+
+  int group = int.parse(rawGroup[0]['value']);
+
+  print(group);
+
+  //res = await DBProvider.rawQuery("SELECT id, name AS groupName FROM groups WHERE id = $group");
+  /*
+  res = await DBProvider.rawQuery(""
+      "SELECT * FROM ("
+      "SELECT * FROM groups_lessons WHERE idGroup = $group"
+      ") JOIN lessons ON idLesson = lessons.id "
+      "JOIN ("
+      "SELECT id AS subjectId, name AS subjectName FROM subjects "
+      ") ON subjectId = idSubject "
+      "JOIN teachers_lessons ON lessons.id = teachers_lessons.idLesson "
+      "JOIN ("
+      "SELECT id as teacherId, name as teacherName FROM teachers "
+      ") ON teacherId = teachers_lessons.idLesson "
+      "");
+  */
+  res = await DBProvider.rawQuery(""
+      "WITH cte_lesson AS ("
+      "  SELECT id, idSubject, type, weekOdd, startTime, endTime FROM ("
+      "    SELECT * FROM groups_lessons WHERE idGroup = $group "
+      "  ) JOIN lessons ON idLesson = lessons.id "
+      "), "
+      "cte_subject AS ("
+      "  SELECT id, subjectName, type, weekOdd, startTime, endTime FROM cte_lesson JOIN ("
+      "    SELECT id AS subjectId, name AS subjectName FROM subjects "
+      "  ) ON subjectId = idSubject "
+      "),"
+      "cte_teacher AS ("
+      "  SELECT id, subjectName, teacherName, type, weekOdd, startTime, endTime "
+      "FROM cte_subject "
+      "  JOIN teachers_lessons ON id = idLesson "
+      "  JOIN ("
+      "    SELECT id as teacherId, name as teacherName FROM teachers "
+      "  ) ON idTeacher = teacherId"
+      "),"
+      "cte_groups AS ("
+      " SELECT id, subjectName, teacherName, groupName, type, weekOdd, startTime, endTime "
+      "FROM cte_teacher "
+      "  JOIN groups_lessons ON id = idLesson "
+      "  JOIN ("
+      "    SELECT id as groupId, name as groupName FROM groups "
+      "  ) ON idGroup = groupId"
+      "),"
+      "cte_places AS ("
+      " SELECT id, subjectName, teacherName, groupName, placeName, type, weekOdd, startTime, endTime "
+      "FROM cte_groups "
+      "  JOIN places_lessons ON id = idLesson "
+      "  JOIN ("
+      "    SELECT id as placeId, name as placeName FROM places "
+      "  ) ON idPlace = placeId"
+      ")"
+      "SELECT * FROM cte_places");
+
+  print(res);
+
   runApp(MyApp());
 }
 
