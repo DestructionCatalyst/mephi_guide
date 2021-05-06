@@ -5,6 +5,7 @@ import 'package:mephi_guide/data/reminders/reminders_bloc.dart';
 import 'package:mephi_guide/data/reminders/reminders_events.dart';
 import 'package:mephi_guide/reminders/percentage_text.dart';
 import 'package:mephi_guide/reminders/reminders_list.dart';
+import 'package:mephi_guide/settings/settings.dart';
 import 'package:mephi_guide/tab/tab.dart';
 
 import '../group_manager.dart';
@@ -275,6 +276,8 @@ class _RemindersTabState extends State<RemindersTab> {
           ),
           iconTop: 12,
           iconLeft: 12,
+
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsTab())),
         )
     );
   }

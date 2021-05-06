@@ -27,86 +27,97 @@ class DBProvider {
     String path = await getDatabasesPath() + 'data';
     var db = await openDatabase(path, version: 1, onOpen: (db) async {
     }, onCreate: (Database db, int version) async {
-      await addTable(db, "reminders", {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT",
-        "`from`": "TEXT",
-        "`to`": "TEXT",
-        "place": "TEXT",
-        "`text`": "TEXT",
-        "idPlace": "INTEGER",
-      });
+      await addTables(db);
 
-      await addTable(db, "news", {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT",
-        "institution": "INTEGER",
-        "t": "TEXT",
-        "place": "TEXT",
-        "`text`": "TEXT",
-        "topImg": "TEXT",
-        "idPlace": "INTEGER",
-      });
-
-      await addTable(db, 'groups', {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT",
-        "institution": "INTEGER",
-      });
-
-      await addTable(db, 'lessons', {
-        "id": "INTEGER PRIMARY KEY",
-        "idSubject": "INTEGER",
-        "type": "INTEGER",
-        "weekOdd": "INTEGER",
-        "startTime": "DATETIME",
-        "endTime": "DATETIME"
-      });
-
-      await addTable(db, 'places', {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT",
-        "x": "INTEGER",
-        "y": "INTEGER"
-      });
-
-      await addTable(db, 'subjects', {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT"
-      });
-
-      await addTable(db, 'teachers', {
-        "id": "INTEGER PRIMARY KEY",
-        "name": "TEXT"
-      });
-
-      await addTable(db, 'teachers_lessons', {
-        "idTeacher": "INTEGER",
-        "idLesson": "INTEGER",
-        "CONSTRAINT pk": "PRIMARY KEY (idTeacher, idLesson)",
-      });
-
-      await addTable(db, 'groups_lessons', {
-        "idGroup": "INTEGER",
-        "idLesson": "INTEGER",
-        "CONSTRAINT pk": "PRIMARY KEY (idGroup, idLesson)",
-      });
-
-      await addTable(db, 'places_lessons', {
-        "idPlace": "INTEGER",
-        "idLesson": "INTEGER",
-        "CONSTRAINT pk": "PRIMARY KEY (idPlace, idLesson)",
-      });
-
-      await addTable(db, 'utility', {
-        "key": "TEXT PRIMARY KEY",
-        "value": "TEXT"
-      });
+      initUtilities();
 
       print("Tables created!");
     });
     print("DB created/loaded!");
     return db;
+  }
+
+  Future addTables(Database db) async {
+    await addTable(db, "reminders", {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT",
+      "`from`": "TEXT",
+      "`to`": "TEXT",
+      "place": "TEXT",
+      "`text`": "TEXT",
+      "idPlace": "INTEGER",
+    });
+
+    await addTable(db, "news", {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT",
+      "institution": "INTEGER",
+      "t": "TEXT",
+      "place": "TEXT",
+      "`text`": "TEXT",
+      "topImg": "TEXT",
+      "idPlace": "INTEGER",
+    });
+
+    await addTable(db, 'groups', {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT",
+      "institution": "INTEGER",
+    });
+
+    await addTable(db, 'lessons', {
+      "id": "INTEGER PRIMARY KEY",
+      "idSubject": "INTEGER",
+      "type": "INTEGER",
+      "weekOdd": "INTEGER",
+      "startTime": "DATETIME",
+      "endTime": "DATETIME"
+    });
+
+    await addTable(db, 'places', {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT",
+      "x": "INTEGER",
+      "y": "INTEGER"
+    });
+
+    await addTable(db, 'subjects', {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT"
+    });
+
+    await addTable(db, 'teachers', {
+      "id": "INTEGER PRIMARY KEY",
+      "name": "TEXT"
+    });
+
+    await addTable(db, 'teachers_lessons', {
+      "idTeacher": "INTEGER",
+      "idLesson": "INTEGER",
+      "CONSTRAINT pk": "PRIMARY KEY (idTeacher, idLesson)",
+    });
+
+    await addTable(db, 'groups_lessons', {
+      "idGroup": "INTEGER",
+      "idLesson": "INTEGER",
+      "CONSTRAINT pk": "PRIMARY KEY (idGroup, idLesson)",
+    });
+
+    await addTable(db, 'places_lessons', {
+      "idPlace": "INTEGER",
+      "idLesson": "INTEGER",
+      "CONSTRAINT pk": "PRIMARY KEY (idPlace, idLesson)",
+    });
+
+    await addTable(db, 'utility', {
+      "key": "TEXT PRIMARY KEY",
+      "value": "TEXT"
+    });
+  }
+
+  Future initUtilities() async {
+    await insertMap('utility', {"key": "currentGroupID", "value": "0"}, conflictAlgorithm: ConflictAlgorithm.ignore);
+    await insertMap('utility', {"key": "currentInstitutionID", "value": "0"}, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   addTable(Database db, String name, Map<String, String> columns) async{
@@ -178,11 +189,19 @@ class DBProvider {
 
   static Future<List<Map<String, dynamic>>> rawQuery(String query) async => _database.rawQuery(query);
 
-  static Future<List<Map<String, dynamic>>> queryUtilityValue(String key) async {
+  static Future<String> queryUtilityValue(String key) async {
     var queryResult = await _database.rawQuery(
         "SELECT value FROM utility WHERE key = \"$key\"");
 
     return queryResult[0]['value'];
+  }
+
+  static Future<String> queryCurrentGroupName() async{
+    int id = await DBProvider.queryUtilityValue("currentGroupID") as int;
+
+    var queryResult = await _database.query('group', columns: ["name"], where: "id = ?", whereArgs: [id]);
+
+    return queryResult[0]['name'];
   }
 
   static Future<int> insert(String table, Model model, {ConflictAlgorithm conflictAlgorithm}) async =>
@@ -199,6 +218,9 @@ class DBProvider {
 
   static Future<int> update(String table, Model model) async =>
       await _database.update(table, model.toMap(), where: 'id = ?', whereArgs: [model.id]);
+
+  static Future<int> updateUtilityValue(String key, String value) async =>
+      await _database.update('utility', {"value": value}, where: 'key = ?', whereArgs: [key]);
 
   static Future<int> delete(String table, Model model) async =>
       await _database.delete(table, where: 'id = ?', whereArgs: [model.id]);

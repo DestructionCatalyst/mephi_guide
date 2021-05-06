@@ -39,4 +39,9 @@ class Group implements Model{
     if (id != null) { map['id'] = id; }
     return map;
   }
+
+  @override
+  String toString() {
+    return 'Group{id: $id, name: $name, institution: $institution}';
+  }
 }

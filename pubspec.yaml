@@ -30,6 +30,7 @@ dependencies:
   webview_flutter: ^0.3.19+9
   flutter_local_notifications: ^1.4.4+1
   cached_network_image: ^2.5.1
+  autocomplete_textfield: ^1.6.4
   sqflite:
 
 
