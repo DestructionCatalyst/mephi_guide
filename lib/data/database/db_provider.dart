@@ -197,9 +197,13 @@ class DBProvider {
   }
 
   static Future<String> queryCurrentGroupName() async{
-    int id = await DBProvider.queryUtilityValue("currentGroupID") as int;
+    String strId = await DBProvider.queryUtilityValue("currentGroupID");
+    int id = int.parse(strId);
 
-    var queryResult = await _database.query('group', columns: ["name"], where: "id = ?", whereArgs: [id]);
+    if (id == 0)
+      return "(Гость)";
+
+    var queryResult = await _database.query('groups', columns: ["name"], where: "id = ?", whereArgs: [id]);
 
     return queryResult[0]['name'];
   }

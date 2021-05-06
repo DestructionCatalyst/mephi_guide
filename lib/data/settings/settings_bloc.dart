@@ -24,7 +24,7 @@ class SettingsBloc implements Disposable{
   Sink<SettingsEvent> get inEvent => _eventController.sink;
   Stream<SettingsEvent> get _outEvent => _eventController.stream;
 
-  final StreamController<String> _groupNameController = StreamController<String>();
+  StreamController<String> _groupNameController;
 
   Sink<String> get _inData => _groupNameController.sink;
   Stream<String> get outData => _groupNameController.stream;
@@ -38,6 +38,10 @@ class SettingsBloc implements Disposable{
 
     //Add event listener
     _outEvent.listen(_handleEvent);
+
+    _groupNameController = StreamController<String>.broadcast(onListen: () => loadGroupName);
+
+    loadGroupName();
   }
 
   void loadGroupName(){
@@ -51,6 +55,7 @@ class SettingsBloc implements Disposable{
       DBProvider.updateUtilityValue("currentGroupID", event.newGroup.id.toString());
       DBProvider.updateUtilityValue("currentInstitutionID", event.newGroup.institution.toString());
 
+      loadGroupName();
     }
     else{
       //Should never reach here

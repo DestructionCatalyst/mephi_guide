@@ -19,13 +19,27 @@ class _SettingsTabState extends State<SettingsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return MyTab(
+    var tab = MyTab(
       name: "Настройки",
       titleTop: 148,
       children: [
         buildGroupSelect(),
       ],
     );
+
+    addListeners();
+
+    return tab;
+  }
+
+  void addListeners(){
+    widget.bloc.outData.listen((event) {
+      var actf = key.currentWidget;
+
+      if((actf != null) && (actf is AutoCompleteTextField)){
+        actf.textField.controller.text = event;
+      }
+    });
   }
 
   Positioned buildGroupSelect() {
@@ -72,13 +86,17 @@ class _SettingsTabState extends State<SettingsTab> {
 
     var groupData = data as List<Group>;
     //groupData.add(Group(id: 0, name: "(Гость)", institution: 0));
-    return buildACTF(key, data as List<Group>);
+    var actf = buildACTF(key, data as List<Group>);
+
+    widget.bloc.loadGroupName();
+
+    return actf;
   }
 
 
 
   AutoCompleteTextField<Group> buildACTF(Key myKey, List<Group> suggestions){
-    var actf =  AutoCompleteTextField<Group>(
+    return AutoCompleteTextField<Group>(
       key: myKey,
       suggestions: suggestions,
       itemSorter: (a, b) => a.name.compareTo(b.name),
@@ -95,6 +113,6 @@ class _SettingsTabState extends State<SettingsTab> {
       ),
       itemFilter: (item, query) => item.name.toLowerCase().startsWith(query.toLowerCase()),
       itemBuilder: (context, item) => Text(item.name),
-    ).controller.text = "";
+    );
   }
 }
