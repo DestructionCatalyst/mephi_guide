@@ -5,6 +5,11 @@
     "icon": "assets/images/icons/globe.png"
   },
   {
+    "name": "Расписание",
+    "page": "timetable",
+    "icon": "assets/images/icons/align-right-1.png"
+  },
+  {
     "name": "Памятка",
     "page": "reminders",
     "icon": "assets/images/icons/layers.png"

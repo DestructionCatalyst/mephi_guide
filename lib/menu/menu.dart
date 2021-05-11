@@ -4,6 +4,7 @@ import 'package:mephi_guide/news/news.dart';
 import 'package:mephi_guide/page.dart';
 import 'package:mephi_guide/phonebook/phonebook.dart';
 import 'package:mephi_guide/reminders/rem.dart';
+import 'package:mephi_guide/timetable/timetable.dart';
 
 import 'menu_controller.dart';
 
@@ -91,6 +92,7 @@ class MenuTile extends StatelessWidget {
   static final Map<String, _MenuAction> menuActionMap =
   {
     "news" : _NavigateMenuAction((context) => MyPage(content: NewsTab())),
+    "timetable" : _NavigateMenuAction((context) => MyPage(content: TimetableTab())),
     "reminders" : _NavigateMenuAction((context) => MyPage(content: RemindersTab())),
     "navigation" : _NavigateMenuAction((context) => MyPage(content: Container())),
     "qrcode" : _DialogMenuAction(),

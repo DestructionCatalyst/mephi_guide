@@ -23,21 +23,6 @@ void main() async{
 
   print(group);
 
-  //res = await DBProvider.rawQuery("SELECT id, name AS groupName FROM groups WHERE id = $group");
-  /*
-  res = await DBProvider.rawQuery(""
-      "SELECT * FROM ("
-      "SELECT * FROM groups_lessons WHERE idGroup = $group"
-      ") JOIN lessons ON idLesson = lessons.id "
-      "JOIN ("
-      "SELECT id AS subjectId, name AS subjectName FROM subjects "
-      ") ON subjectId = idSubject "
-      "JOIN teachers_lessons ON lessons.id = teachers_lessons.idLesson "
-      "JOIN ("
-      "SELECT id as teacherId, name as teacherName FROM teachers "
-      ") ON teacherId = teachers_lessons.idLesson "
-      "");
-  */
   res = await DBProvider.rawQuery(""
       "WITH cte_lesson AS ("
       "  SELECT id, idSubject, type, weekOdd, startTime, endTime FROM ("
@@ -72,13 +57,16 @@ void main() async{
       "  JOIN ("
       "    SELECT id as placeId, name as placeName FROM places "
       "  ) ON idPlace = placeId"
+      "),"
+      "cte_time AS ("
+      " SELECT DATETIME('now') AS currentTime"
       ")"
       "SELECT id, subjectName, "
       " GROUP_CONCAT(DISTINCT teacherName) AS teachers,"
       " GROUP_CONCAT(DISTINCT groupName) AS groups,"
       " GROUP_CONCAT(DISTINCT placeName) AS places, "
       " type, weekOdd, startTime, endTime "
-      "FROM cte_places GROUP BY id");
+      "FROM cte_places JOIN cte_time WHERE strftime('%W', startTime) = strftime('%W', currentTime) GROUP BY id ORDER BY startTime");
 
   print(res);
 

@@ -156,6 +156,16 @@ class DBProvider {
     ),
         conflictAlgorithm: ConflictAlgorithm.ignore);
 
+    await insert('lessons', Lesson(
+      id: 2,
+      idSubject: 1,
+      type: 0,
+      weekOdd: 0,
+      startTime: DateTime.now(),
+      endTime: DateTime.now(),
+    ),
+        conflictAlgorithm: ConflictAlgorithm.ignore);
+
     await insert('places', Place(id: 0, name: 'test', x: 0, y: 0), conflictAlgorithm: ConflictAlgorithm.ignore);
     await insert('places', Place(id: 1, name: 'more test', x: 0, y: 0), conflictAlgorithm: ConflictAlgorithm.ignore);
     await insert('places', Place(id: 2, name: 'not test', x: 0, y: 0), conflictAlgorithm: ConflictAlgorithm.ignore);
@@ -170,14 +180,17 @@ class DBProvider {
     await insertMap('teachers_lessons', {"idTeacher": 0, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('teachers_lessons', {"idTeacher": 1, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('teachers_lessons', {"idTeacher": 2, "idLesson": 1}, conflictAlgorithm: ConflictAlgorithm.ignore);
+    await insertMap('teachers_lessons', {"idTeacher": 2, "idLesson": 2}, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     await insertMap('groups_lessons', {"idGroup": 1, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('groups_lessons', {"idGroup": 2, "idLesson": 1}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('groups_lessons', {"idGroup": 3, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
+    await insertMap('groups_lessons', {"idGroup": 1, "idLesson": 2}, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     await insertMap('places_lessons', {"idPlace": 0, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('places_lessons', {"idPlace": 1, "idLesson": 0}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('places_lessons', {"idPlace": 2, "idLesson": 1}, conflictAlgorithm: ConflictAlgorithm.ignore);
+    await insertMap('places_lessons', {"idPlace": 2, "idLesson": 2}, conflictAlgorithm: ConflictAlgorithm.ignore);
 
     await insertMap('utility', {"key": "currentGroupID", "value": "1"}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('utility', {"key": "currentInstitutionID", "value": "5"}, conflictAlgorithm: ConflictAlgorithm.ignore);
@@ -231,4 +244,60 @@ class DBProvider {
 
   static void deleteAll(String table) async =>
       await _database.execute("DELETE FROM $table");
+
+
+  static Future<List<Map<String, dynamic>>> queryCurrentLessons() async{
+    var rawGroup = await DBProvider.rawQuery("SELECT value FROM utility WHERE key = \"currentGroupID\"");
+
+    int group = int.parse(rawGroup[0]['value']);
+
+    print(group);
+
+    var res = await DBProvider.rawQuery(""
+        "WITH cte_lesson AS ("
+        "  SELECT id, idSubject, type, weekOdd, startTime, endTime FROM ("
+        "    SELECT * FROM groups_lessons WHERE idGroup = $group "
+        "  ) JOIN lessons ON idLesson = lessons.id "
+        "), "
+        "cte_subject AS ("
+        "  SELECT id, subjectName, type, weekOdd, startTime, endTime FROM cte_lesson JOIN ("
+        "    SELECT id AS subjectId, name AS subjectName FROM subjects "
+        "  ) ON subjectId = idSubject "
+        "),"
+        "cte_teacher AS ("
+        "  SELECT id, subjectName, teacherName, type, weekOdd, startTime, endTime "
+        "  FROM cte_subject "
+        "  JOIN teachers_lessons ON id = idLesson "
+        "  JOIN ("
+        "    SELECT id as teacherId, name as teacherName FROM teachers "
+        "  ) ON idTeacher = teacherId"
+        "),"
+        "cte_groups AS ("
+        "  SELECT id, subjectName, teacherName, groupName, type, weekOdd, startTime, "
+        "  endTime FROM cte_teacher "
+        "  JOIN groups_lessons ON id = idLesson "
+        "  JOIN ("
+        "    SELECT id as groupId, name as groupName FROM groups "
+        "  ) ON idGroup = groupId"
+        "),"
+        "cte_places AS ("
+        "  SELECT id, subjectName, teacherName, groupName, placeName, type, weekOdd, "
+        "  startTime, endTime FROM cte_groups "
+        "  JOIN places_lessons ON id = idLesson "
+        "  JOIN ("
+        "    SELECT id as placeId, name as placeName FROM places "
+        "  ) ON idPlace = placeId"
+        "),"
+        "cte_time AS ("
+        " SELECT DATETIME('now') AS currentTime"
+        ")"
+        "SELECT id, subjectName, "
+        " GROUP_CONCAT(DISTINCT teacherName) AS teachers,"
+        " GROUP_CONCAT(DISTINCT groupName) AS groups,"
+        " GROUP_CONCAT(DISTINCT placeName) AS places, "
+        " type, weekOdd, startTime, endTime "
+        "FROM cte_places JOIN cte_time WHERE strftime('%W', startTime) = strftime('%W', currentTime) GROUP BY id ORDER BY startTime");
+
+    return res;
+  }
 }

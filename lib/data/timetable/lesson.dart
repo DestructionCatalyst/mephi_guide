@@ -13,8 +13,6 @@ class Lesson implements Model{
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
 
-    DateFormat();
-
     return Lesson(
         id: json['id'],
         idSubject: json['idSubject'],
