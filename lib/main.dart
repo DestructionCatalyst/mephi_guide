@@ -11,6 +11,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await DBProvider.db.database;
   await DBProvider.db.addDummies();
+  await DBProvider.db.addTimetable();
   
   List<Map<String, dynamic>> res;
   

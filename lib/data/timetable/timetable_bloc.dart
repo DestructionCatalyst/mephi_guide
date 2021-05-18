@@ -11,9 +11,13 @@ import 'package:mephi_guide/data/timetable/lesson.dart';
 import 'package:mephi_guide/data/timetable/lesson_info.dart';
 import 'package:mephi_guide/data/timetable/subject.dart';
 import 'package:mephi_guide/data/timetable/teacher.dart';
-import 'package:mephi_guide/data/list_json_convert.dart';
+import 'package:mephi_guide/timetable/timetable_item.dart';
+import 'package:mephi_guide/timetable/weekday_title.dart';
 
 class TimetableBloc implements Disposable{
+
+  static const String placesPage = "getdots";
+  static const String groupsPage = "getgroups";
 
   HttpListData<Group> groupsData;
   HttpListData<Lesson> lessonsData;
@@ -21,19 +25,37 @@ class TimetableBloc implements Disposable{
   HttpListData<Subject> subjectsData;
   HttpListData<Teacher> teachersData;
 
-  StreamController<List<LessonData>> _lessonsDataController = StreamController<List<LessonData>>();
+  StreamController<List<TimetableItem>> _lessonsDataController = StreamController<List<TimetableItem>>();
 
-  Sink<List<LessonData>> get _inData => _lessonsDataController.sink;
-  Stream<List<LessonData>> get outData => _lessonsDataController.stream;
+  Sink<List<TimetableItem>> get _inData => _lessonsDataController.sink;
+  Stream<List<TimetableItem>> get outData => _lessonsDataController.stream;
 
   TimetableBloc(){
     groupsData = new CachedHttpData('groups', (json) => Group.fromJson(json));
+    placesData = new CachedHttpData('places', (json) => Place.fromJson(json));
+
+    groupsData.loadData(groupsPage);
+    placesData.loadData(placesPage);
 
 
     DBProvider.queryCurrentLessons().then(
-            (value) =>_lessonsDataController.add(
-              value.map((json) => LessonData.fromJson(json)).toList()
-            )
+            (value) {
+              // IT IS NOT UNNECESSARY!!! IT DOESN'T WORK WITHOUT THIS CAST!              VVVVVVVVVVVVVVVV
+              List<TimetableItem> lessons = value.map((json) => LessonData.fromJson(json) as TimetableItem)
+                  .toList();
+
+              String prevWeekDay = "";
+
+              for(int i = 0; i < lessons.length; i++){
+
+                if(lessons[i].weekday != prevWeekDay){
+                  lessons.insert(i, WeekdayTitle(lessons[i].weekday));
+                  prevWeekDay = lessons[i].weekday;
+                }
+              }
+
+              _lessonsDataController.add(lessons);
+            }
     );
 
   }

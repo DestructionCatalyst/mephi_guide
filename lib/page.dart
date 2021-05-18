@@ -28,7 +28,14 @@ class _MyPageState extends State<MyPage> {
         body: Center(
             child: Stack(
           children: <Widget>[
-            content,
+            WillPopScope(
+                onWillPop: () {
+
+                  //Doesn't help, try setting content instead of Navigator.push
+                    return Future.value(true);
+                  },
+                child: content
+            ),
             Menu(
               controller: menuController,
             ),

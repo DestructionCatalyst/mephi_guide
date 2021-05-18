@@ -1,8 +1,20 @@
 
 
 import 'package:mephi_guide/data/model.dart';
+import 'package:mephi_guide/timetable/timetable_item.dart';
 
-class LessonData implements Model{
+class LessonData implements Model, TimetableItem{
+
+  static const Map<int, String> weekdays = {
+    1: "Понедельник",
+    2: "Вторник",
+    3: "Среда",
+    4: "Четверг",
+    5: "Пятница",
+    6: "Суббота",
+    7: "Воскресенье"
+  };
+
   final int id;
   final String subjectName;
   final String teachers;
@@ -29,6 +41,8 @@ class LessonData implements Model{
       endTime: DateTime.parse(json['endTime']),
     );
   }
+
+  String get weekday => weekdays[startTime.weekday];
 
   @override
   toMap() {
