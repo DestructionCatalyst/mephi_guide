@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mephi_guide/data/news/group.dart';
+import 'package:mephi_guide/data/settings/settings_bloc.dart';
+import 'package:mephi_guide/data/timetable/lesson.dart';
 import 'package:mephi_guide/data/timetable/lesson_info.dart';
 import 'package:mephi_guide/data/timetable/timetable_bloc.dart';
 import 'package:mephi_guide/list_stream_builder.dart';

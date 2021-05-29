@@ -5,7 +5,7 @@ class NotificationScheduler{
 
 
 
-  Future<void> scheduleNotification(String scheduledTitle, String scheduledBody, DateTime scheduledDateTime, {String payload}) async {
+  Future<void> scheduleNotification(int id, String scheduledTitle, String scheduledBody, DateTime scheduledDateTime, {String payload}) async {
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'channel id',
@@ -18,7 +18,7 @@ class NotificationScheduler{
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await FlutterLocalNotificationsPlugin().schedule(
-        0,
+        id,
         scheduledTitle,
         scheduledBody,
         scheduledDateTime,

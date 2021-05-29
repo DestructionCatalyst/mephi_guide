@@ -3,11 +3,20 @@ import 'dart:async';
 import 'package:mephi_guide/data/model.dart';
 import 'package:mephi_guide/data/navigation/place.dart';
 import 'package:mephi_guide/data/timetable/lesson.dart';
+import 'package:mephi_guide/data/timetable/notification.dart';
 import 'package:mephi_guide/data/timetable/subject.dart';
 import 'package:mephi_guide/data/timetable/teacher.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
+
+  static const String loremIpsum = 'Lorem ipsum dolor sit amet, consectetur '
+      'adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore'
+      ' magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco'
+      ' laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor '
+      'in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla '
+      'pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa '
+      'qui officia deserunt mollit anim id est laborum. ';
 
   DBProvider._();
   static final DBProvider db = DBProvider._();
@@ -109,6 +118,13 @@ class DBProvider {
       "CONSTRAINT pk": "PRIMARY KEY (idPlace, idLesson)",
     });
 
+    await addTable(db, 'notifications', {
+      "id": "INTEGER PRIMARY KEY",
+      "idLesson": "INTEGER",
+      "name": "TEXT",
+      "note": "TEXT",
+      "notificationTime": "DATETIME"
+    });
 
     await addTable(db, 'utility', {
       "key": "TEXT PRIMARY KEY",
@@ -139,7 +155,6 @@ class DBProvider {
   }
 
   addTimetable() async{
-
     await insert('lessons', Lesson(
       id: 10,
       idSubject: 10,
@@ -435,6 +450,8 @@ class DBProvider {
     await insertMap('places_lessons', {"idPlace": 2, "idLesson": 1}, conflictAlgorithm: ConflictAlgorithm.ignore);
     await insertMap('places_lessons', {"idPlace": 2, "idLesson": 2}, conflictAlgorithm: ConflictAlgorithm.ignore);
 
+    await insertMap('notifications', {'id': 0, 'idLesson':10, 'name': 'test',
+      'note': loremIpsum, 'notificationTime': DateTime.now().add(Duration(seconds: 30)).toIso8601String()}, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
 
@@ -461,6 +478,22 @@ class DBProvider {
 
     return queryResult[0]['name'];
   }
+
+  static Future<List<Map<String, dynamic>>> queryLessonNotifications(int lessonId) async =>
+    await _database.query('notifications', where: "idLesson = ?", whereArgs: [lessonId]);
+
+  static Future<int> queryLastId(String table) async{
+    var queryResult = await _database.rawQuery("SELECT MAX(id) FROM $table");
+
+    return queryResult[0]['MAX(id)'];
+  }
+
+  static Future<bool> notificationExists(MyNotification notification) async{
+    var queryResult = _database.rawQuery("SELECT EXISTS(SELECT 1 FROM notifications WHERE id=${notification.id})");
+    print("result = $queryResult");
+    return false;
+  }
+
 
   static Future<int> insert(String table, Model model, {ConflictAlgorithm conflictAlgorithm}) async =>
       await _database.insert(table, model.toMap(), conflictAlgorithm: conflictAlgorithm);

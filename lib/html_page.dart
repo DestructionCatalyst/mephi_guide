@@ -30,6 +30,8 @@ class _HtmlPageState extends State<HtmlPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Информация'),
+        foregroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurple,
       ),
       body: _buildWebView(widget.htmlPageText),
     );

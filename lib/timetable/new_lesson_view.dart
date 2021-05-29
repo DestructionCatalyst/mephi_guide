@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mephi_guide/data/timetable/lesson_info.dart';
+import 'package:mephi_guide/timetable/lesson_notifications_tab.dart';
 
 class LessonView extends StatelessWidget {
 
@@ -32,17 +33,20 @@ class LessonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Container(
-        width: 360,
-        child: Row(
-          children: [
-            buildTime(),
-            buildTextData()
-          ],
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 1.0),
+        child: Container(
+          width: 360,
+          child: Row(
+            children: [
+              buildTime(),
+              buildTextData()
+            ],
+          ),
         ),
       ),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LessonNotificationsTab(lessonData: data))),
     );
   }
 
